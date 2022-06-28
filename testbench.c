@@ -24,8 +24,8 @@ int main(void) {
 
     printf("\n");
     printf("The angle table:\n");
-    for(i=0; i<15; i++) {
-        printf("z[%2i] = %i\n", i, (int)(atan(pow( 2.0, (double)(-i))) * (1 << 15)));
+    for (i=0; i<15; i++) {
+        printf("z[%2i] = %i\n", i, (int)(atan(pow(2.0, (double)(-i))) * (1 << 15)));
     }
 
 }

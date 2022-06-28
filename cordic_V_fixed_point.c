@@ -4,6 +4,7 @@ int z_table[15];
  * arm-linux-gcc -O3 -S cordic_V_fixed_point.c
  */
 
+// Vectoring mode.
 void cordic_V_fixed_point(int *x, int *y, int *z) {
     int x_temp_1, y_temp_1, z_temp;
     int x_temp_2, y_temp_2;
@@ -13,8 +14,8 @@ void cordic_V_fixed_point(int *x, int *y, int *z) {
     y_temp_1 = *y;
     z_temp = 0;
 
-    for( i=0; i<15; i++) {
-        if( y_temp_1 > 0) {
+    for (i=0; i<15; i++) {
+        if (y_temp_1 > 0) {
             x_temp_2 = x_temp_1 + (y_temp_1 >> i);
             y_temp_2 = y_temp_1 - (x_temp_1 >> i);
             z_temp += z_table[i];
