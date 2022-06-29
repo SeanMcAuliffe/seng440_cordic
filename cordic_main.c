@@ -10,7 +10,6 @@ void cordic_V_fixed_point(int *x, int *y, int *z) {
     int i;
 
     x_temp_1 = *x;
-    printf("Value of x_temp_1 at start: %d\n", x_temp_1);
     y_temp_1 = *y;
     z_temp = 0;
 

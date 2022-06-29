@@ -1,27 +1,25 @@
-int z_table[15];
 
-/*
- * arm-linux-gcc -O3 -S cordic_V_fixed_point.c
- */
+void cordic_V_fixed_point(int x_temp_1, int y_temp_1, int *z) {
 
-// Vectoring mode.
-void cordic_V_fixed_point(int *x, int *y, int *z) {
-    int x_temp_1, y_temp_1, z_temp;
-    int x_temp_2, y_temp_2;
-    int i;
+    int z_table[15] = {25735, 15192, 8027, 4074, 2045, 1023,
+                    511, 255, 127, 63, 31, 15, 7, 3, 1};
 
-    x_temp_1 = *x;
-    y_temp_1 = *y;
+    register int z_temp;
+    register int x_temp_2, y_temp_2;
+    register int i;
+
+    // x_temp_1 = *x;
+    // y_temp_1 = *y;
     z_temp = 0;
 
-    for (i=0; i<15; i++) {
+    for (i^=i; !(i&15); i+=1) {
         if (y_temp_1 > 0) {
             x_temp_2 = x_temp_1 + (y_temp_1 >> i);
             y_temp_2 = y_temp_1 - (x_temp_1 >> i);
             z_temp += z_table[i];
         } else {
-            x_temp_2 = x_temp_1 - (y_temp_2 >> i);
-            y_temp_2 + y_temp_1 + (x_temp_1 >> i);
+            x_temp_2 = x_temp_1 - (y_temp_1 >> i);
+            y_temp_2 = y_temp_1 + (x_temp_1 >> i);
             z_temp -= z_table[i];
         }
 
@@ -29,7 +27,7 @@ void cordic_V_fixed_point(int *x, int *y, int *z) {
         y_temp_1 = y_temp_2;
     }
 
-    *x = x_temp_1;
-    *y = y_temp_1;
+    // *x = x_temp_1;
+    // *y = y_temp_1;
     *z = z_temp;
 }
