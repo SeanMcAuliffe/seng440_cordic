@@ -18,23 +18,28 @@ int main(void) {
     clock_t cordic_begin;
     clock_t cordic_end;
     int i;
+    int k;
 
     // Time the testbench
     timebench_begin = clock();
-    for (i = 0; i < 1000; i++) {
-        testbench(x_d, y_d, &z_d); //z_d = atan(y_d / x_d);//
+    for (k = 0; k < 1000; k++) {
+        for (i = 0; i < 10000; i++) {
+            testbench(x_d, y_d, &z_d); //z_d = atan(y_d / x_d);//
+        }
     }
     timebench_end = clock();
-    int time_testbench = (timebench_end - timebench_begin);
+    int time_testbench = (timebench_end - timebench_begin) / 1000;
     printf("Testbench took %d, z_d = %f\n", time_testbench, z_d);
 
     // Time CORDIC
     cordic_begin = clock();
-    for (i = 0; i < 1000; i++) {
-        cordic_V_fixed_point(x_i, y_i, &z_i);
+    for (k =0; k < 1000; k++) {
+        for (i = 0; i < 10000; i++) {
+            cordic_V_fixed_point(&x_i, &y_i, &z_i);
+        }
     }
     cordic_end = clock();
-    int time_cordic = (cordic_end - cordic_begin);
+    int time_cordic = (cordic_end - cordic_begin) / 1000;
     printf("Cordic took %d, z_i = %i\n", time_cordic, z_i);
 
     return 0;
