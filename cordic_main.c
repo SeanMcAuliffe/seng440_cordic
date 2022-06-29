@@ -4,23 +4,24 @@
 int z_table[15] = {25735, 15192, 8027, 4074, 2045, 1023,
                     511, 255, 127, 63, 31, 15, 7, 3, 1};
 
-void cordic_V_fixed_point( int *x, int *y, int *z) {
+void cordic_V_fixed_point(int *x, int *y, int *z) {
     int x_temp_1, y_temp_1, z_temp;
     int x_temp_2, y_temp_2;
     int i;
 
     x_temp_1 = *x;
+    printf("Value of x_temp_1 at start: %d\n", x_temp_1);
     y_temp_1 = *y;
     z_temp = 0;
 
-    for(i=0; i<15; i++) {
-        if(y_temp_1 > 0) {
+    for (i=0; i<15; i++) {
+        if (y_temp_1 > 0) {
             x_temp_2 = x_temp_1 + (y_temp_1 >> i);
             y_temp_2 = y_temp_1 - (x_temp_1 >> i);
             z_temp += z_table[i];
         } else {
-            x_temp_2 = x_temp_1 - (y_temp_2 >> i);
-            y_temp_2 + y_temp_1 + (x_temp_1 >> i);
+            x_temp_2 = x_temp_1 - (y_temp_1 >> i);
+            y_temp_2 = y_temp_1 + (x_temp_1 >> i);
             z_temp -= z_table[i];
         }
 
@@ -38,6 +39,9 @@ void verify(int x_i_init, int y_i_init, int z_i_init, int x_i, int y_i, int z_i)
     x_d_init = (double)x_i_init / (1 << 15); /* float image of x_i_init */
     y_d_init = (double)y_i_init / (1 << 15); /* float image of y_i_init */
     z_d_init = (double)z_i_init / (1 << 15); /* float image of of z_i_init */
+    x_d = (double)x_i / (1 << 15);
+    y_d = (double)y_i / (1 << 15);
+    z_d = (double)z_i / (1 << 15);
 
     printf("x_i_init = %5i\tx_d_init = %f\n", x_i_init, x_d_init);
     printf("y_i_init = %5i\ty_d_init = %f\n", y_i_init, y_d_init);
