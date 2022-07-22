@@ -8,13 +8,15 @@ import math
 
 def main():
     vals = input("How many z values? ")
-    for i in range(int(vals)):
+    vals = int(vals)
+
+    for i in range(vals):
         argument = 2**(i*-1)
         angle = math.atan(argument)
-        image = int(angle*(2**23))
-        if i < int(vals) -1:
+        image = int(angle*(2**vals))
+        if i < vals -1:
             print(f"{image}, ", end='')
-        if i == int(vals) -1:
+        else:
             print(f"{image} ")
 
 
