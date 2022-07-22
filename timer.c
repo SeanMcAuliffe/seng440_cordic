@@ -4,12 +4,12 @@
 
 int main(void) {
 
-    double x_d = 0.85;
-    double y_d = 0.76;
+    double x_d = 0.707106;
+    double y_d = 0.707106;
     double z_d;
 
-    int x_i = 27852;
-    int y_i = 24903;
+    int x_i = 5931642;
+    int y_i = 5931642;
     int z_i;
 
     clock_t timebench_begin;
