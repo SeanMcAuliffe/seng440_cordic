@@ -1,3 +1,16 @@
+/*
+* This program is meant to be compiled with all of the versions
+* of CORDIC we produce (from naive, to optimized C, to firmware instrinsics).
+* Provide command line arguments to specify which versions of cordic to test.
+* -r = atan reference
+* -n = naive
+* -o1 = optimized version 1
+* -o2 = optimized version 2
+* -o3 = optimized version 3
+* -f = firmware intrinsics
+* Compile using the command: gcc -o performance_test performenace_test.c -lm
+*/
+
 #include <time.h>
 #include "cordic_naive.c"
 #include "string.h"
@@ -23,7 +36,6 @@ int main(int argc, char* argv[]) {
     clock_t cordic_end;
 
     for (int i = 1; i < argc; i++) {
-        printf("Iteration: i = %d\n", i);
 
         if (strcmp(argv[i], "-r") == 0) {
             printf("Running Atan Reference\n");
@@ -31,7 +43,7 @@ int main(int argc, char* argv[]) {
             for (int k = 0; k < NUM_TRIALS; k++) {
                 for (int j = 0; j < NUM_ITERATIONS; j++) {
                     atan_reference(x_d, y_d, &z_d); //z_d = atan(y_d / x_d);//
-                }       
+                }
             }
             timebench_end = clock();
             int time_testbench = (timebench_end - timebench_begin) / 1000;

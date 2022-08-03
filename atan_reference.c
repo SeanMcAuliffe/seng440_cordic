@@ -1,9 +1,12 @@
+/*
+* This is a reference call to the C math library atan function, to compare the
+* performance increase by using the CORDIC fixed point implementations.
+*/
+
 #include <stdio.h>
 #include <math.h>
+#include <stdint.h>
 
-/*
- * Compile with: gcc testbench.c -o testbench.exe -lm
- */
 
 double atan_reference(double x_d, double y_d, double* z_d) {
 

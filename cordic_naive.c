@@ -1,3 +1,11 @@
+/*
+* This represents the initial (naive) implementation of the fixed-point
+* CORDIC algorithm in vectoring mode. No high level C optmizations have
+* been applied.
+*
+* This version uses 23 bits to achieve 16 bits of final precision.
+*/
+
 #include <stdio.h>
 #include <math.h>
 #include <stdint.h>
