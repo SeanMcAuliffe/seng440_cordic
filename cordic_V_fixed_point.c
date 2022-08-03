@@ -26,7 +26,7 @@ static int32_t z_table[23] = {6588397, 3889358, 2055029, 1043165, 523606, 262058
                                  511, 255, 127, 63, 31, 15, 7, 3, 1};
 
 
-// void cordic_V_fixed_point(int32_t *x, int32_t *y, int32_t *z) {
+void cordic_V_fixed_point(int32_t *x, int32_t *y, int32_t *z) {
 //     int32_t x_temp_1, y_temp_1, z_temp;
 //     int32_t x_temp_2, y_temp_2;
 //     int32_t i;

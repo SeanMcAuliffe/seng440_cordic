@@ -12,8 +12,8 @@
 */
 
 #include <time.h>
+#include <string.h>
 #include "cordic_naive.c"
-#include "string.h"
 #include "atan_reference.c"
 
 #define NUM_ITERATIONS 10000
