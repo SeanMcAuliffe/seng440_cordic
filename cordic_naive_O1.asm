@@ -39,12 +39,12 @@ cordic_naive:
 	add	ip, ip, #1							; Increment i.
 	add	r2, r2, #4							; Advance by one word the offset corresponding to i.
 	cmp	ip, #23								; Evaluate loop-end condition.
-	movne	r0, r5							; if (i != 23) x_temp_1 = x_temp_2. 
+	movne	r0, r5							; if (i != 23) x_temp_1 = x_temp_2. Doesn't store y_temp_2! 
 	bne	.L5									; if (i != 23) goto .L5.
-.L4:
-	str	r4, [r7, #0]
-	ldmfd	sp!, {r4, r5, r6, r7}
-	bx	lr
+.L4:										; End loop. (i == 23)
+	str	r4, [r7, #0]						; Deference *z, store in r4 (z_temp).
+	ldmfd	sp!, {r4, r5, r6, r7}			; Pop r4 - r7 from stack.
+	bx	lr 									; Jump to return address.
 .L8:
 	.align	2
 .L7:
