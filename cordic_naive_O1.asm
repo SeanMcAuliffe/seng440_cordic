@@ -19,7 +19,7 @@ cordic_naive:
 	@ frame_needed = 0, uses_anonymous_args = 0
 	@ link register save eliminated.
 	stmfd	sp!, {r4, r5, r6, r7}			; Push r4 - r7 onto stack.
-	mov	r7, r2								; Let r2 = r7.
+	mov	r7, r2								; Let r7 = r2.
 	ldr	r0, [r0, #0]						; r0 = x_temp_1.
 	ldr	r1, [r1, #0]						; r1 = y_temp_1.
 	mov	ip, #0								; ip = i = 0.
@@ -39,7 +39,7 @@ cordic_naive:
 	add	ip, ip, #1							; Increment i.
 	add	r2, r2, #4							; Advance by one word the offset corresponding to i.
 	cmp	ip, #23								; Evaluate loop-end condition.
-	movne	r0, r5							; if (i != 23) x_temp_1 = x_temp_2. Doesn't store y_temp_2! 
+	movne	r0, r5							; if (i != 23) x_temp_1 = x_temp_2. *** Doesn't store y_temp_2! *** 
 	bne	.L5									; if (i != 23) goto .L5.
 .L4:										; End loop. (i == 23)
 	str	r4, [r7, #0]						; Deference *z, store in r4 (z_temp).
