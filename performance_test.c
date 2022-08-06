@@ -15,7 +15,7 @@
 #include <string.h>
 #include <stdint.h>
 //#include "cordic_naive.c"
-#include "cordic_opt1.c"
+//#include "cordic_opt1.c"
 #include "math_reference.c"
 #include "von_neumann.c"
 #include <math.h>
@@ -71,7 +71,7 @@ int main(int argc, char* argv[]) {
 
         /* Use floating point emulation for reference */
         if (strcmp(argv[i], "-r") == 0) {
-
+            #ifdef REFERENCE
             /* START ATAN REFERNCE */
             printf("Atan Reference\n");
             time_start = clock();
@@ -105,12 +105,12 @@ int main(int argc, char* argv[]) {
             printf("binary(x):         "); binary_print((int32_t) (xd_o * SCALE_FACTOR));
             printf("binary(y):         "); binary_print((int32_t) (yd_o * SCALE_FACTOR)); printf("\n");
             /* END SINCOS REFERNCE */ 
-
+            #endif
         }
 
         /* Naive Fixed Point Implementation */
         if (strcmp(argv[i], "-n") == 0) {
-
+            #ifdef NAIVE
             /* START VECTORING */
             printf("Naive CORDIC-Vectoring\n");
             time_start = clock();
@@ -154,9 +154,11 @@ int main(int argc, char* argv[]) {
             printf("binary(x):         "); binary_print(x_o);
             printf("binary(y):         "); binary_print(y_o); printf("\n");
             /* END ROTATION */
+            #endif
         }
 
         if (strcmp(argv[i], "-o1") == 0) {
+            #ifdef O1
              /* START VECTORING */
             printf("Opt-1 CORDIC-Vectoring\n");
             time_start = clock();
@@ -195,6 +197,7 @@ int main(int argc, char* argv[]) {
             printf("binary(x):         "); binary_print(x_o);
             printf("binary(y):         "); binary_print(y_o); printf("\n");
             /* END ROTATION */
+            #endif
         }
 
         if (strcmp(argv[i], "-o2") == 0) {

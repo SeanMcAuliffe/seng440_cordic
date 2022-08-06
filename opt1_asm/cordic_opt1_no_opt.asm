@@ -100,28 +100,28 @@ cordic_opt1_vectoring:
 	@ args = 0, pretend = 0, frame = 40
 	@ frame_needed = 1, uses_anonymous_args = 0
 	@ link register save eliminated.
-	str	fp, [sp, #-4]!
+	str	fp, [sp, #-4]!		; Store inputs to memory
 	add	fp, sp, #0
 	sub	sp, sp, #44
 	str	r0, [fp, #-8]
 	str	r1, [fp, #-12]
 	str	r2, [fp, #-16]
 	str	r3, [fp, #-20]
-	ldr	r1, .L7
+	ldr	r1, .L7				; Global z table reference
 	str	r1, [fp, #-24]
-	ldr	r2, [fp, #-8]
+	ldr	r2, [fp, #-8]		; x_temp = x
 	str	r2, [fp, #-44]
-	ldr	r3, [fp, #-12]
+	ldr	r3, [fp, #-12]		; y_temp = y
 	str	r3, [fp, #-40]
-	mov	r1, #0
+	mov	r1, #0				; table_access = 0
 	str	r1, [fp, #-36]
-	mov	r2, #0
+	mov	r2, #0				; i = 0
 	str	r2, [fp, #-28]
 	b	.L2
 .L5:
 	ldr	r3, [fp, #-40]
 	cmp	r3, #0
-	blt	.L3
+	blt	.L3					; BRANCH (if y_temp < 0)
 	ldr	r1, [fp, #-40]
 	ldr	r2, [fp, #-28]
 	mov	r3, r1, asr r2
@@ -139,7 +139,7 @@ cordic_opt1_vectoring:
 	ldr	r2, [fp, #-36]
 	add	r2, r2, r3
 	str	r2, [fp, #-36]
-	b	.L4
+	b	.L4					; Return to top of loop
 .L3:
 	ldr	r1, [fp, #-40]
 	ldr	r2, [fp, #-28]
@@ -159,13 +159,13 @@ cordic_opt1_vectoring:
 	rsb	r2, r3, r2
 	str	r2, [fp, #-36]
 .L4:
-	ldr	r3, [fp, #-32]
+	ldr	r3, [fp, #-32]		; Udate loop variables
 	str	r3, [fp, #-44]
 	ldr	r1, [fp, #-24]
-	add	r1, r1, #4
+	add	r1, r1, #4			; table_access += 4
 	str	r1, [fp, #-24]
 	ldr	r2, [fp, #-28]
-	add	r2, r2, #1
+	add	r2, r2, #1			; i += 1
 	str	r2, [fp, #-28]
 .L2:
 	ldr	r3, [fp, #-28]

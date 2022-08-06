@@ -28,11 +28,11 @@ cordic_opt1_vectoring:
 	cmp	r1, #0
 	addge	r2, r0, r1, asr ip
 	subge	r1, r1, r0, asr ip
-	ldrge	r3, [r4, #-4]
+	ldrge	r3, [r4, #-4]			; Redunant load.
 	addge	r5, r5, r3
 	sublt	r2, r0, r1, asr ip
 	addlt	r1, r1, r0, asr ip
-	ldrlt	r3, [r4, #-4]
+	ldrlt	r3, [r4, #-4]			; Redunant load.
 	rsblt	r5, r3, r5
 	add	ip, ip, #1
 	add	r4, r4, #4

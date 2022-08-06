@@ -29,11 +29,11 @@ cordic_naive_vectoring:
 	cmp	r1, #0
 	addgt	r4, r0, r1, asr ip
 	subgt	r1, r1, r0, asr ip
-	ldrgt	r3, [r6, r2]
+	ldrgt	r3, [r6, r2]			@ r3 = *(r6 + r2), redundnat load
 	addgt	r5, r5, r3
 	suble	r4, r0, r1, asr ip
 	addle	r1, r1, r0, asr ip
-	ldrle	r3, [r6, r2]
+	ldrle	r3, [r6, r2]			@ r3 = *(r6 + r2), redundnat load
 	rsble	r5, r3, r5
 	add	ip, ip, #1
 	add	r2, r2, #4

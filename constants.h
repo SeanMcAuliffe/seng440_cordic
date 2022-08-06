@@ -10,19 +10,19 @@
 * achieve this 16-bit accuracy, you need to remove the 4 least
 * significant its of the result. Cast the result to a 16-bit integer.
 */
-const int32_t SCALE_FACTOR = (1 << 19);
+static const int32_t SCALE_FACTOR = (1 << 19);
 
 /* Integer image of the lim(n->inf) K(n), represented in 16 bits.
 * lim(n->inf) K(n) = 0.6072529350088812561694
 */
-const int32_t K_SCALE = 318375;
-const int32_t K_FACTOR = 318375;
+static const int32_t K_SCALE = 318375;
+static int32_t K_FACTOR = 318375;
 
-const int32_t z_table[19] = {411774, 243084, 128439, 65197, 32725, 16378,
+static const int32_t z_table[19] = {411774, 243084, 128439, 65197, 32725, 16378,
                              8191, 4095, 2047, 1023, 511, 255, 127, 63, 31,
                              15, 7, 3, 1};
 
-const int32_t table_offset = sizeof(int32_t);
+static const int32_t table_offset = sizeof(int32_t);
 
 /*
 * To assess the performance imrpovement of the CORDIC fixed-point 
@@ -33,8 +33,8 @@ const int32_t table_offset = sizeof(int32_t);
 * reduce the effects of noise in the measurement due to operating system
 * scheduling, and other stochastic factors.
 */
-const int32_t NUM_ITERATIONS = 1000;
-const int32_t NUM_TRIALS = 1000;
+static const int32_t NUM_ITERATIONS = 1000;
+static const int32_t NUM_TRIALS = 1000;
 
 /*
 * -------------------   Inputs   ----------------------------
@@ -42,8 +42,8 @@ const int32_t NUM_TRIALS = 1000;
 * CORDIC implementation on different inputs.
 * -----------------------------------------------------------
 */
-const double X_VECTORING_MODE = 0.707106;
-const double Y_VECTORING_MODE = 0.707106;
-const double Z_ROTATION_MODE = 0.785398;
+static const double X_VECTORING_MODE = 0.707106;
+static const double Y_VECTORING_MODE = 0.707106;
+static const double Z_ROTATION_MODE = 0.785398;
 
 #endif /* CONSTAINTS_H */

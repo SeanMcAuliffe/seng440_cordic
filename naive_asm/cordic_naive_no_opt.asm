@@ -121,7 +121,7 @@ cordic_naive_vectoring:
 	rsb	r3, r2, r3
 	str	r3, [fp, #-12]
 	ldr	r2, [fp, #-8]
-	ldr	r3, .L7
+	ldr	r3, .L7					; Store global z table reference
 	ldr	r2, [r3, r2, asl #2]
 	ldr	r3, [fp, #-20]
 	add	r3, r3, r2
@@ -152,7 +152,7 @@ cordic_naive_vectoring:
 	ldr	r3, [fp, #-12]
 	str	r3, [fp, #-24]
 	ldr	r3, [fp, #-8]
-	add	r3, r3, #1
+	add	r3, r3, #1			; i++
 	str	r3, [fp, #-8]
 .L2:
 	ldr	r3, [fp, #-8]
