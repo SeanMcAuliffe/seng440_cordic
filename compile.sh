@@ -5,7 +5,7 @@
 # optimization flags.
 
 DEFINES=("-D REFERENCE" "-D O1" "-D NAIVE")
-MODULES=("cordic_naive.c" "cordic_opt1.c")
+MODULES=("cordic_naive.c" "cordic_opt1.c" "cordic_opt2.c")
 OBJECTS=("cordic_naive.o" "cordic_opt1.o")
 OPT_FLAG=("-O0" "-O1" "-O2" "-O3")
 CC=""
@@ -35,6 +35,10 @@ for opt in ${OPT_FLAG[@]}; do
     # Compile each module
     for module in ${MODULES[@]}; do
         ${CC} -c -std=c99 ${module} ${opt}
+        ${CC} -S -std=c99 ${module} ${opt}
+        filename=${module}
+        modified=${filename::-2}
+        mv ${modified}.s ./temp_asm/${modified}${opt}.asm
     done
 
     # Compile performance test

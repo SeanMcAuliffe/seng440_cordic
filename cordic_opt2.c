@@ -17,8 +17,8 @@
 * The arguments x and y represent the input vector. The output is stored in x_o, y_o and z_o
 * (_o for output).
 */
-void cordic_opt1_vectoring(int32_t x, int32_t y, int32_t* restrict x_o, int32_t* restrict z_o) {
-    register int32_t x_temp_1, y_temp_1, z_temp;
+void cordic_opt2_vectoring(int32_t x, int32_t y, int32_t* restrict x_o, int32_t* restrict z_o) {
+    register int32_t x_temp_1, y_temp_1, z_temp, sign;
     register int32_t x_temp_2;
     register int32_t i;
     register const int32_t* table_access = z_table;
@@ -28,6 +28,7 @@ void cordic_opt1_vectoring(int32_t x, int32_t y, int32_t* restrict x_o, int32_t*
     z_temp = 0;
 
     for (i = 0; i < 19; i++) {
+        if (y_temp_1 >= 0) sign = 
         if (y_temp_1 >= 0) {
             /* Rotate downwards by arctan(2^-i) */
             x_temp_2 = x_temp_1 + (y_temp_1 >> i);
@@ -56,7 +57,7 @@ void cordic_opt1_vectoring(int32_t x, int32_t y, int32_t* restrict x_o, int32_t*
 * The input argument z represent the input angle. The output is stored in x_o, y_o and z_o
 * (_o for output). x_o and y_o represent cos(z), sin(z) respectively.
 */
-void cordic_opt1_rotation(int32_t z, int32_t* restrict x_o, int32_t* restrict y_o) {
+void cordic_opt2_rotation(int32_t z, int32_t* restrict x_o, int32_t* restrict y_o) {
     register int32_t x_temp_1, y_temp_1, z_temp;
     register int32_t x_temp_2;
     register int32_t i;
