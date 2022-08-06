@@ -9,7 +9,13 @@
 
 
 double atan_reference(double x_d, double y_d, double* z_d) {
-
     *z_d = atan(y_d / x_d);  /* call std-C math routines */
+}
 
+double cos_reference(double x_d, double* z_d) {
+    *z_d = cos(x_d); 
+}
+
+double sin_reference(double x_d, double* z_d) {
+    *z_d = sin(x_d); 
 }
