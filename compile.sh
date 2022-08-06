@@ -1,35 +1,48 @@
 #!/bin/bash
 
+# This script automatically compiles all versions of the cordic
+# implementation into ARM binaries, using all possible compiler
+# optimization flags.
+
 DEFINES=("-D REFERENCE" "-D O1" "-D NAIVE")
 MODULES=("cordic_naive.c" "cordic_opt1.c")
 OBJECTS=("cordic_naive.o" "cordic_opt1.o")
-OPT_FLAG="-O1"
-CC="arm-linux-gcc"
-#CC="gcc"
+OPT_FLAG=("-O0" "-O1" "-O2" "-O3")
+CC=""
 FLAGS=""
 EXEC="timer"
+
+if [ "$1" == "g" ]; then
+    CC="gcc"
+fi
+
+if [ "$1" == "a" ]; then
+    CC="arm-linux-gcc"
+fi
 
 # IF CC == GCC
 if [ "$CC" == "gcc" ]; then
     FLAGS="-Wall -lm"
 fi
 
-# If CC == arm-linux-gcc
-if [ "$CC" == "arm-linux-gcc" ]; then
-    FLAGS="-Wall -mfloat-abi=soft -lm -march=armv4t -mtune=arm920t -static"
-fi
+for opt in ${OPT_FLAG[@]}; do
+    EXEC="timer"${opt}
+    # If CC == arm-linux-gcc
+    if [ "$CC" == "arm-linux-gcc" ]; then
+        FLAGS="-Wall -mfloat-abi=soft -lm -march=armv4t -mtune=arm920t -static"
+    fi
 
-# Compile each module
-for module in ${MODULES[@]}; do
-    echo "Compiling $module.c"
-    ${CC} -c -std=c99 ${module} ${OPT_FLAG}
+    # Compile each module
+    for module in ${MODULES[@]}; do
+        ${CC} -c -std=c99 ${module} ${opt}
+    done
+
+    # Compile performance test
+    ${CC} ${DEFINES[@]} -c -std=c99 performance_test.c
+
+    # Link all objects
+    ${CC} -o ${EXEC} ${OBJECTS[@]} -std=c99 performance_test.o ${FLAGS[@]}
 done
-
-# Compile performance test
-${CC} ${DEFINES[@]} -c -std=c99 performance_test.c
-
-# Link all objects
-${CC} -o ${EXEC} ${MODULES[@]} -std=c99 performance_test.o ${FLAGS[@]}
 
 # arm-linux-gcc -c -std=c99 cordic_naive.c -O1
 # arm-linux-gcc -c -std=c99 -lm performance_test.c
