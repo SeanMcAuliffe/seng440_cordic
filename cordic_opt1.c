@@ -1,6 +1,7 @@
 /*
-* This represents the initial (naive) implementation of the fixed-point
-* CORDIC algorithm.  No high level C optmizations have been applied.
+* This represents the our first attempt to optimize the fixed-point
+* CORDIC algorithm.
+*
 * This version uses 23 bits to achieve 16 bits of final precision.
 */
 
@@ -16,10 +17,11 @@
 * The arguments x and y represent the input vector. The output is stored in x_o, y_o and z_o
 * (_o for output).
 */
-void cordic_naive_vectoring(int32_t x, int32_t y, int32_t* x_o, int32_t* y_o, int32_t* z_o) {
-    int32_t x_temp_1, y_temp_1, z_temp;
-    int32_t x_temp_2, y_temp_2;
-    int32_t i;
+void cordic_opt1_vectoring(int32_t x, int32_t y, int32_t* restrict x_o, int32_t* restrict z_o) {
+    register int32_t x_temp_1, y_temp_1, z_temp;
+    register int32_t x_temp_2;
+    register int32_t i;
+    register const int32_t* table_access = z_table;
 
     x_temp_1 = x;
     y_temp_1 = y;
@@ -29,22 +31,21 @@ void cordic_naive_vectoring(int32_t x, int32_t y, int32_t* x_o, int32_t* y_o, in
         if (y_temp_1 >= 0) {
             /* Rotate downwards by arctan(2^-i) */
             x_temp_2 = x_temp_1 + (y_temp_1 >> i);
-            y_temp_2 = y_temp_1 - (x_temp_1 >> i);
-            z_temp += z_table[i];
+            y_temp_1 -= (x_temp_1 >> i);
+            z_temp += *table_access;
         } else {
             /* Rotate upwards by arctan(2^-i) */
             x_temp_2 = x_temp_1 - (y_temp_1 >> i);
-            y_temp_2 = y_temp_1 + (x_temp_1 >> i);
-            z_temp -= z_table[i];
+            y_temp_1 += (x_temp_1 >> i);
+            z_temp -= *table_access;
         }
         x_temp_1 = x_temp_2;
-        y_temp_1 = y_temp_2;
+        table_access++;
     }
 
-    /* If we implement rounding, should we be concerned with the 
-    number of significant bits in the output before roudning? */
+    /* Optimize return statements, we don't care about value of y */
     *x_o = x_temp_1;
-    *y_o = y_temp_1;
+    // *y_o = y_temp_1;
     *z_o = z_temp;
 }
 
@@ -55,30 +56,32 @@ void cordic_naive_vectoring(int32_t x, int32_t y, int32_t* x_o, int32_t* y_o, in
 * The input argument z represent the input angle. The output is stored in x_o, y_o and z_o
 * (_o for output). x_o and y_o represent cos(z), sin(z) respectively.
 */
-void cordic_naive_rotation(int32_t z, int32_t *x_o, int32_t *y_o, int32_t *z_o) {
-    int32_t x_temp_1, y_temp_1, z_temp;
-    int32_t x_temp_2, y_temp_2;
-    int32_t i;
+void cordic_opt1_rotation(int32_t z, int32_t* restrict x_o, int32_t* restrict y_o) {
+    register int32_t x_temp_1, y_temp_1, z_temp;
+    register int32_t x_temp_2;
+    register int32_t i;
+    register const int32_t* table_access = z_table;
 
     x_temp_1 = K_FACTOR;
     y_temp_1 = 0;
     z_temp = z;
 
-    for (i = 0; i < 19; i++) {
+   for (i = 0; i < 19; i++) {
         if (z_temp < 0) {
             x_temp_2 = x_temp_1 + (y_temp_1 >> i);
-            y_temp_2 = y_temp_1 - (x_temp_1 >> i);
-            z_temp += z_table[i];
+            y_temp_1 -= (x_temp_1 >> i);
+            z_temp += *table_access;
         } else {
             x_temp_2 = x_temp_1 - (y_temp_1 >> i);
-            y_temp_2 = y_temp_1 + (x_temp_1 >> i);
-            z_temp -= z_table[i];
+            y_temp_1 += (x_temp_1 >> i);
+            z_temp -= *table_access;
         }
         x_temp_1 = x_temp_2;
-        y_temp_1 = y_temp_2;
+        table_access++;
     }
 
+    /* optimise return statements, we don't care about value of z */
     *x_o = x_temp_1;
     *y_o = y_temp_1;
-    *z_o = z_temp; 
+    // *z_o = z_temp; 
 }

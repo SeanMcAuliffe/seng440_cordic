@@ -1,7 +1,8 @@
-#ifndef CONSTANTS
-#define CONSTANTS
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
 
 #include <stdint.h>
+
 /*
 * We chose this scale factor because it produces 16 accurate
 * bits in CORDIC the output (15 magnitude, 1 sign). These accurate
@@ -15,6 +16,13 @@ const int32_t SCALE_FACTOR = (1 << 19);
 * lim(n->inf) K(n) = 0.6072529350088812561694
 */
 const int32_t K_SCALE = 318375;
+const int32_t K_FACTOR = 318375;
+
+const int32_t z_table[19] = {411774, 243084, 128439, 65197, 32725, 16378,
+                             8191, 4095, 2047, 1023, 511, 255, 127, 63, 31,
+                             15, 7, 3, 1};
+
+const int32_t table_offset = sizeof(int32_t);
 
 /*
 * To assess the performance imrpovement of the CORDIC fixed-point 
@@ -38,4 +46,4 @@ const double X_VECTORING_MODE = 0.707106;
 const double Y_VECTORING_MODE = 0.707106;
 const double Z_ROTATION_MODE = 0.785398;
 
-#endif
+#endif /* CONSTAINTS_H */

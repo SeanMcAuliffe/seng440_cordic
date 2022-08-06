@@ -15,6 +15,7 @@
 #include <string.h>
 #include <stdint.h>
 //#include "cordic_naive.c"
+#include "cordic_opt1.c"
 #include "math_reference.c"
 #include "von_neumann.c"
 #include <math.h>
@@ -135,7 +136,7 @@ int main(int argc, char* argv[]) {
              /* START ROTATION */
             printf("Naive CORDIC-Rotation\n");
             time_start = clock();
-            for (int k =0; k < NUM_TRIALS; k++) {
+            for (int k = 0; k < NUM_TRIALS; k++) {
                 for (int j = 0; j < NUM_ITERATIONS; j++) {
                     cordic_naive_rotation(z_i, &x_o, &y_o, &z_o);
                 }
@@ -156,7 +157,44 @@ int main(int argc, char* argv[]) {
         }
 
         if (strcmp(argv[i], "-o1") == 0) {
-            printf("Running Optimized 1\n");
+             /* START VECTORING */
+            printf("Opt-1 CORDIC-Vectoring\n");
+            time_start = clock();
+            for (int k = 0; k < NUM_TRIALS; k++) {
+                for (int j = 0; j < NUM_ITERATIONS; j++) {
+                    cordic_opt1_vectoring(x_i, y_i, &x_o, &z_o);
+                }
+            }
+            time_end = clock();
+            time_elapsed = (int) ((double) (time_end - time_start) / (double) NUM_TRIALS);
+            zd_o = (double) z_o / SCALE_FACTOR;
+            yd_o = (double) y_o / SCALE_FACTOR;
+            xd_o = (double) x_o / SCALE_FACTOR;
+            printf("Average ticks:     %d\n", time_elapsed);
+            printf("z = vector(y/z):   %f\n", zd_o);
+            printf("x = vector(y/z):   %f\n", xd_o * ((double) K_SCALE / (double) SCALE_FACTOR));
+            printf("binary(z):         "); binary_print(z_o);
+            printf("binary(x):         "); binary_print(x_o); printf("\n");
+             /* END VECTORING */
+
+             /* START ROTATION */
+            printf("Opt-1 CORDIC-Rotation\n");
+            time_start = clock();
+            for (int k = 0; k < NUM_TRIALS; k++) {
+                for (int j = 0; j < NUM_ITERATIONS; j++) {
+                    cordic_opt1_rotation(z_i, &x_o, &y_o);
+                }
+            }
+            time_end = clock();
+            time_elapsed = (int) ((double) (time_end - time_start) / (double) NUM_TRIALS);
+            yd_o = (double) y_o / SCALE_FACTOR;
+            xd_o = (double) x_o / SCALE_FACTOR;
+            printf("Average ticks:     %d\n", time_elapsed);
+            printf("x = rotate(z):     %f\n", xd_o);
+            printf("y = rotate(z):     %f\n", yd_o);
+            printf("binary(x):         "); binary_print(x_o);
+            printf("binary(y):         "); binary_print(y_o); printf("\n");
+            /* END ROTATION */
         }
 
         if (strcmp(argv[i], "-o2") == 0) {
