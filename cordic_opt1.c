@@ -22,6 +22,7 @@ void cordic_opt1_vectoring(int32_t x, int32_t y, int32_t* restrict x_o, int32_t*
     register int32_t x_temp_2;
     register int32_t i;
     register const int32_t* table_access = z_table;
+    register n = 19;
 
     x_temp_1 = x;
     y_temp_1 = y;
