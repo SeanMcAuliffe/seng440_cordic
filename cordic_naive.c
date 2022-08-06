@@ -9,7 +9,11 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdint.h>
-#include "constants.h"
+
+/* Integer image of the lim(n->inf) K(n), represented in 16 bits.
+* lim(n->inf) K(n) = 0.6072529350088812561694
+*/
+const int32_t K_FACTOR = 318375;
 
 static int32_t z_table[19] = {411774, 243084, 128439, 65197, 32725, 16378,
                              8191, 4095, 2047, 1023, 511, 255, 127, 63, 31,
@@ -66,7 +70,7 @@ void cordic_naive_rotation(int32_t z, int32_t *x_o, int32_t *y_o, int32_t *z_o) 
     int32_t x_temp_2, y_temp_2;
     int32_t i;
 
-    x_temp_1 = K_SCALE;
+    x_temp_1 = K_FACTOR;
     y_temp_1 = 0;
     z_temp = z;
 
