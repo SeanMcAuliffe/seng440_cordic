@@ -11,10 +11,10 @@ def main():
     vals = int(vals)
 
     for i in range(vals):
-        argument = 2**(i*-1)
+        argument = math.pow(2, (-1 * i))
         angle = math.atan(argument)
-        image = int(angle*(2**vals))
-        if i < vals -1:
+        image = int(angle * math.pow(2, vals))
+        if i < vals:
             print(f"{image}, ", end='')
         else:
             print(f"{image} ")
