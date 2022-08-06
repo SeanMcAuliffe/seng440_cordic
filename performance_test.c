@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
 
     /* Timing Variables */
     clock_t time_start, time_end;
-    double time_elapsed;
+    int time_elapsed;
 
     /* Run all modes which have been specified */
     for (int i = 1; i < argc; i++) {
@@ -60,7 +60,7 @@ int main(int argc, char* argv[]) {
             }
             time_end = clock();
             time_elapsed = (int) ((double) (time_end - time_start) / (double) NUM_TRIALS);
-            printf("Atan took %d cycles on average.\n z_d = %f\n\n", time_elapsed, z_d);
+            printf("Atan took %d ticks on average.\n z_d = %f\n\n", time_elapsed, z_d);
 
             printf("Running Sin, Cos References\n");
             time_start = clock();
@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
             }
             time_end = clock();
             time_elapsed = (int) ((double) (time_end - time_start) / (double) NUM_TRIALS);
-            printf("Cos and Sin took %d cycles on average.\n x = %f, y= %f\n\n", time_elapsed, x_d, y_d);
+            printf("Cos and Sin took %d ticks on average.\n x = %f, y= %f\n\n", time_elapsed, x_d, y_d);
 
         }
 
@@ -89,7 +89,7 @@ int main(int argc, char* argv[]) {
             }
             time_end = clock();
             time_elapsed = (int) ((double) (time_end - time_start) / (double) NUM_TRIALS);
-            printf("Cordic naive vectoring took %d cycles on average.\n z_i = %i\n\n", time_elapsed, z_i);
+            printf("Cordic naive vectoring took %d ticks on average.\n z_i = %i\n\n", time_elapsed, z_i);
 
             /* Verify naive vectoring mode */
             zd_o = (double) z_o / SCALE_FACTOR;
@@ -110,7 +110,7 @@ int main(int argc, char* argv[]) {
             }
             time_end = clock();
             time_elapsed = (int) ((double) (time_end - time_start) / (double) NUM_TRIALS);
-            printf("Cordic naive rotation took %d cycles on average.\n z_i = %i\n", time_elapsed, z_i);
+            printf("Cordic naive rotation took %d ticks on average.\n z_i = %i\n", time_elapsed, z_i);
 
             /* Verify naive rotation mode */
             zd_o = (double) z_o / SCALE_FACTOR;
