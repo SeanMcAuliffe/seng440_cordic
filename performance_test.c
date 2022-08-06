@@ -20,6 +20,8 @@
 #include <math.h>
 #include "constants.h"
 
+/* For debugging purposes, print the
+* binary representation of a number */
 void binary_print(int32_t x) {
     for (int i = 31; i >= 0; i--) {
         printf("%d", (x >> i) & 1);
@@ -33,12 +35,18 @@ int main(int argc, char* argv[]) {
     double x_d = X_VECTORING_MODE;
     double y_d = Y_VECTORING_MODE;
     double z_d_rot = Z_ROTATION_MODE;
+
+    /* Seperate output locations */
     double z_d, xd_o, yd_o, zd_o;
 
     /* Apply scale factor */
     int32_t x_i = (int32_t)(x_d * SCALE_FACTOR);
     int32_t y_i = (int32_t)(y_d * SCALE_FACTOR);
     int32_t z_i = (int32_t)(z_d_rot * SCALE_FACTOR);
+
+    /* Output locations kept seperate from inputs,
+    * to avoid overwriting inputs during consecutive
+    * iterations */
     int32_t x_o, y_o, z_o;
 
     /* Timing Variables */
@@ -57,12 +65,13 @@ int main(int argc, char* argv[]) {
             for (int k = 0; k < NUM_TRIALS; k++) {
                 for (int j = 0; j < NUM_ITERATIONS; j++) {
                     // z_d = atan(y_d / x_d);
-                    atan_reference(x_d, y_d, &z_d); 
+                    atan_reference(x_d, y_d, &zd_o); 
                 }
             }
             time_end = clock();
             time_elapsed = (int) ((double) (time_end - time_start) / (double) NUM_TRIALS);
-            printf("Atan took %d ticks on average.\n z_d = %f\n\n", time_elapsed, z_d);
+            printf("Atan took %d ticks on average.\n z_d = %f\n\n", time_elapsed, zd_o);
+            printf("Atan z = "); binary_print(z_i);
             /* END ATAN REFERNCE */
 
             /* START SINCOS REFERNCE */
@@ -71,13 +80,15 @@ int main(int argc, char* argv[]) {
             for (int k = 0; k < NUM_TRIALS; k++) {
                 for (int j = 0; j < NUM_ITERATIONS; j++) {
                     //x_d = cos(z_d); y_d = sin(z_d);
-                    sincos_reference(z_d, &x_d, &y_d); 
+                    sincos_reference(z_d_rot, &xd_o, &yd_o); 
                 }
             }
             time_end = clock();
             time_elapsed = (int) ((double) (time_end - time_start) / (double) NUM_TRIALS);
-            printf("Cos and Sin took %d ticks on average.\n x = %f, y= %f\n\n", time_elapsed, x_d, y_d);
-            /* END SINCOS REFERNCE */
+            printf("Cos and Sin took %d ticks on average.\n x = %f, y= %f\n\n", time_elapsed, xd_o, yd_o);
+            printf("cos x = "); binary_print((int32_t) (xd_o * SCALE_FACTOR));
+            printf("sin x = "); binary_print((int32_t) (yd_o * SCALE_FACTOR));
+            /* END SINCOS REFERNCE */ 
 
         }
 
@@ -97,6 +108,7 @@ int main(int argc, char* argv[]) {
             printf("Cordic naive vectoring took %d ticks on average.\n z_i = %i\n\n", time_elapsed, z_i);
 
             /* Verify Results */
+            printf("cordic z = "); binary_print(z_o);
             zd_o = (double) z_o / SCALE_FACTOR;
             yd_o = (double) y_o / SCALE_FACTOR;
             xd_o = (double) x_o / SCALE_FACTOR;
@@ -119,6 +131,8 @@ int main(int argc, char* argv[]) {
             printf("Cordic naive rotation took %d ticks on average.\n z_i = %i\n", time_elapsed, z_i);
 
             /* Verify naive rotation mode */
+            printf("cordic x = "); binary_print(x_o);
+            printf("cordic y = "); binary_print(y_o);
             zd_o = (double) z_o / SCALE_FACTOR;
             yd_o = (double) y_o / SCALE_FACTOR;
             xd_o = (double) x_o / SCALE_FACTOR;

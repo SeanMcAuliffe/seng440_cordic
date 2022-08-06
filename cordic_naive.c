@@ -36,7 +36,7 @@ void cordic_naive_vectoring(int32_t x, int32_t y, int32_t* x_o, int32_t* y_o, in
     z_temp = 0;
 
     for (i = 0; i < 19; i++) {
-        if (y_temp_1 > 0) {
+        if (y_temp_1 >= 0) {
             /* Rotate downwards by arctan(2^-i) */
             x_temp_2 = x_temp_1 + (y_temp_1 >> i);
             y_temp_2 = y_temp_1 - (x_temp_1 >> i);

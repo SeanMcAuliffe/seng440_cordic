@@ -7,12 +7,13 @@
 #include <math.h>
 #include <stdint.h>
 
-
+/* Reference for CORDIC vectoring mode */
 void atan_reference(double x_d, double y_d, double* z_d) {
-    *z_d = atan(y_d / x_d);  /* call std-C math routines */
+    *z_d = atan(y_d / x_d);
 }
 
+/* Reference for CORDIC rotation mode */
 void sincos_reference(double z_d, double* x_d, double* y_d) {
-    *x_d = cos(z_d); 
+    *x_d = cos(z_d);
     *y_d = sin(z_d);
 }
