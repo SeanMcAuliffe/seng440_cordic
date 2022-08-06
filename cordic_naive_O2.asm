@@ -61,37 +61,37 @@ cordic_naive_rotation:
 	@ frame_needed = 0, uses_anonymous_args = 0
 	@ link register save eliminated.
 	stmfd	sp!, {r4, r5, r6, r7, r8, sl}
-	mov	r5, #315392
-	mov	r4, #0
-	add	r5, r5, #2976
-	ldr	r6, .L16
-	mov	r8, r2
-	mov	r7, r1
-	mov	sl, r3
-	add	r5, r5, #7
-	mov	ip, r4
-	mov	r2, r4
+	mov	r5, #315392						; x_temp_1 = K_SCALE -- Is this K_SCALE? It's the wrong value if so
+	mov	r4, #0							; y_temp = 0
+	add	r5, r5, #2976					; What?? Getting closer to correct K_SCALE.... 
+	ldr	r6, .L16						; Index into the z_table 
+	mov	r8, r2							; let r8 = r2
+	mov	r7, r1							; let r7 = r1
+	mov	sl, r3							; let sl = r3
+	add	r5, r5, #7						; Now it's the correct K_SCALE value, but, why so many steps???
+	mov	ip, r4							; let ip = 0 (i = 0)
+	mov	r2, r4							; let r2 = i offset into table
 .L13:
-	cmp	r0, #0
-	ldrlt	r3, [r6, r2]
-	ldrge	r3, [r6, r2]
-	sublt	r1, r4, r5, asr ip
-	addge	r1, r4, r5, asr ip
-	addlt	r0, r0, r3
-	rsbge	r0, r3, r0
-	addlt	r3, r5, r4, asr ip
-	subge	r3, r5, r4, asr ip
-	add	ip, ip, #1
-	cmp	ip, #19
-	add	r2, r2, #4
-	mov	r4, r1
-	mov	r5, r3
-	bne	.L13
-	str	r3, [r7, #0]
-	str	r1, [r8, #0]
-	str	r0, [sl, #0]
-	ldmfd	sp!, {r4, r5, r6, r7, r8, sl}
-	bx	lr
+	cmp	r0, #0							; if z_temp  < 0
+	ldrlt	r3, [r6, r2]				; if false: r3 = z_table[i]
+	ldrge	r3, [r6, r2]				; if true: r3 = z_table[i] *** REDUNDANT ***
+	sublt	r1, r4, r5, asr ip			; if false: r1 = y_temp_2 = y_temp1 - (x_temp_1 >> i)
+	addge	r1, r4, r5, asr ip			; if false r1 = y_temp_2 = y_temp1 + (x_temp_1 >> i)
+	addlt	r0, r0, r3					; if false: z_temp += z_table[i]
+	rsbge	r0, r3, r0					; if true: z_temp -= z_table[i]
+	addlt	r3, r5, r4, asr ip			; if false: r3 = x_temp_2 = x_temp_1 + (y_temp_1 >> i)
+	subge	r3, r5, r4, asr ip			; if true: r3 = x_temp_2 = x_temp_1 - (y_temp_1 >> i)
+	add	ip, ip, #1						; increment i
+	cmp	ip, #19							; loop end condition test
+	add	r2, r2, #4						; advance i offset into table
+	mov	r4, r1							; r4 = y_temp_1 = y_temp_2 = r1
+	mov	r5, r3							; r5 = x_temp_1 = x_temp_2 = r3
+	bne	.L13							; end of loop
+	str	r3, [r7, #0]					; store x_temp_2 = x_temp1 into r7 (*x_o)
+	str	r1, [r8, #0]					; store y_temp_2 = y_temp1 into r8 (*y_o)
+	str	r0, [sl, #0]					; store z_temp into sl (*z_o)
+	ldmfd	sp!, {r4, r5, r6, r7, r8, sl}	; restore registers
+	bx	lr									; return
 .L17:
 	.align	2
 .L16:
