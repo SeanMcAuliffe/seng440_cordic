@@ -14,7 +14,7 @@
 #include <time.h>
 #include <string.h>
 #include <stdint.h>
-#include "cordic_naive.c"
+//#include "cordic_naive.c"
 #include "math_reference.c"
 #include "von_neumann.c"
 #include <math.h>
@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
 
     /* Timing Variables */
     clock_t time_start, time_end;
-    int32_t time_elapsed;
+    double time_elapsed;
 
     /* Run all modes which have been specified */
     for (int i = 1; i < argc; i++) {
@@ -59,8 +59,8 @@ int main(int argc, char* argv[]) {
                 }
             }
             time_end = clock();
-            time_elapsed = (time_end - time_start) / NUM_TRIALS;
-            printf("Atan took %d cycles, z_d = %f\n\n", time_elapsed, z_d);
+            time_elapsed = (double) (time_end - time_start) / (double)  NUM_TRIALS;
+            printf("Atan took %f cycles on average.\n z_d = %f\n\n", time_elapsed, z_d);
 
             printf("Running Sin, Cos References\n");
             time_start = clock();
@@ -71,8 +71,8 @@ int main(int argc, char* argv[]) {
                 }
             }
             time_end = clock();
-            time_elapsed = (time_end - time_start) / NUM_TRIALS;
-            printf("Cos and Sin took %d cycles, x = %f, y= %f\n\n", time_elapsed, x_d, y_d);
+            time_elapsed = (double) (time_end - time_start) / (double) NUM_TRIALS;
+            printf("Cos and Sin took %f cycles on average.\n x = %f, y= %f\n\n", time_elapsed, x_d, y_d);
 
         }
 
@@ -88,8 +88,8 @@ int main(int argc, char* argv[]) {
                 }
             }
             time_end = clock();
-            time_elapsed = (time_end - time_start) / NUM_TRIALS;
-            printf("Cordic naive vectoring took %d cycles, z_i = %i\n\n", time_elapsed, z_i);
+            time_elapsed = (double) (time_end - time_start) / (double) NUM_TRIALS;
+            printf("Cordic naive vectoring took %f cycles on average.\n z_i = %i\n\n", time_elapsed, z_i);
 
             /* Verify naive vectoring mode */
             zd_o = (double) z_o / SCALE_FACTOR;
@@ -109,8 +109,8 @@ int main(int argc, char* argv[]) {
                 }
             }
             time_end = clock();
-            time_elapsed = (time_end - time_start) / NUM_TRIALS;
-            printf("Cordic naive rotation took %d cycles , z_i = %i\n", time_elapsed, z_i);
+            time_elapsed = (double) (time_end - time_start) / (double) NUM_TRIALS;
+            printf("Cordic naive rotation took %f cycles on average.\n z_i = %i\n", time_elapsed, z_i);
 
             /* Verify naive rotation mode */
             zd_o = (double) z_o / SCALE_FACTOR;

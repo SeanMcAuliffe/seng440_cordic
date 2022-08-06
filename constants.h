@@ -25,9 +25,8 @@ const int32_t K_SCALE = 318375;
 * reduce the effects of noise in the measurement due to operating system
 * scheduling, and other stochastic factors.
 */
-const int32_t NUM_ITERATIONS = 10000;
+const int32_t NUM_ITERATIONS = 1000;
 const int32_t NUM_TRIALS = 1000;
-
 
 /*
 * -------------------   Inputs   ----------------------------
