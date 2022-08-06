@@ -17,64 +17,98 @@
 #include "cordic_naive.c"
 #include "atan_reference.c"
 #include "von_neumann.c"
+#include <math.h>
+#include "constants.h"
 
-#define NUM_ITERATIONS 10000
-#define NUM_TRIALS 1000
-#define K 0.607252935
+void binary_print(int32_t x) {
+    for (int i = 31; i >= 0; i--) {
+        printf("%d", (x >> i) & 1);
+    }
+    printf("\n");
+}
 
 int main(int argc, char* argv[]) {
 
-    /* CORDIC Real Inputs */
-    double x_d = 0.707106;
-    double y_d = 0.707106;
+    /* CORDIC Real Inputs for Vectoring and Rotation Modes */
+    double x_d = X_VECTORING_MODE;
+    double y_d = Y_VECTORING_MODE;
+    double z_d_rot = Z_ROTATION_MODE;
     double z_d, xd_o, yd_o, zd_o;
 
-    /* Apply scale factor of 2^23 */
-    int32_t x_i = (int32_t)(x_d * (1 << 15));
-    int32_t y_i = (int32_t)(y_d * (1 << 15));
-    int32_t z_i, x_o, y_o, z_o;
+    /* Apply scale factor */
+    int32_t x_i = (int32_t)(x_d * SCALE_FACTOR);
+    int32_t y_i = (int32_t)(y_d * SCALE_FACTOR);
+    int32_t z_i = (int32_t)(z_d_rot * SCALE_FACTOR);
+    int32_t x_o, y_o, z_o;
 
     /* Timing Variables */
-    clock_t timebench_begin;
-    clock_t timebench_end;
-    clock_t cordic_begin;
-    clock_t cordic_end;
+    clock_t time_start, time_end;
 
+    /* Run all modes which have been specified */
     for (int i = 1; i < argc; i++) {
 
         /* Use floating point emulation for reference */
         if (strcmp(argv[i], "-r") == 0) {
             printf("Running Atan Reference\n");
-            timebench_begin = clock();
+            time_start = clock();
             for (int k = 0; k < NUM_TRIALS; k++) {
                 for (int j = 0; j < NUM_ITERATIONS; j++) {
                     atan_reference(x_d, y_d, &z_d); //z_d = atan(y_d / x_d);//
                 }
             }
-            timebench_end = clock();
-            int time_testbench = (timebench_end - timebench_begin) / 1000;
-            printf("Atan took %d, z_d = %f\n\n", time_testbench, z_d);
+            time_end = clock();
+            int time_testbench = (time_end - time_start) / NUM_TRIALS;
+            printf("Atan took %d cycles, z_d = %f\n\n", time_testbench, z_d);
         }
 
         /* Naive Fixed Point Implementation */
         if (strcmp(argv[i], "-n") == 0) {
-            printf("Running Cordic Naive\n");
-            cordic_begin = clock();
-            for (int k =0; k < 1000; k++) {
-                for (int j = 0; j < 10000; j++) {
+
+            /* Run naive vectoring mode */
+            printf("Running Cordic Naive Vectoring\n");
+            time_start = clock();
+            for (int k =0; k < NUM_TRIALS; k++) {
+                for (int j = 0; j < NUM_ITERATIONS; j++) {
                     cordic_naive_vectoring(x_i, y_i, &x_o, &y_o, &z_o);
                 }
             }
-            cordic_end = clock();
-            int time_cordic = (cordic_end - cordic_begin) / 1000;
-            printf("Cordic naive took %d, z_i = %i\n\n", time_cordic, z_i);
-            zd_o = (double) z_o / (1 << 15);
-            yd_o = (double) y_o / (1 << 15);
-            xd_o = (double) x_o / (1 << 15);
+            time_end = clock();
+            int time_cordic = (time_end - time_start) / NUM_TRIALS;
+            printf("Cordic naive vectoring took %d cycles, z_i = %i\n\n", time_cordic, z_i);
+
+            /* Verify naive vectoring mode */
+            zd_o = (double) z_o / SCALE_FACTOR;
+            yd_o = (double) y_o / SCALE_FACTOR;
+            xd_o = (double) x_o / SCALE_FACTOR;
             printf("z_d = %f\n", z_d);
             printf("zd_o = %f\n", zd_o);
             printf("yd_o = %f\n", yd_o);
-            printf("xd_o = %f\n", xd_o*K);
+            printf("xd_o = %f\n", xd_o * ((double) K_SCALE / (double) SCALE_FACTOR));
+
+            /* Run naive rotation mode */
+            printf("\nRunning Cordic Naive Rotation\n");
+            time_start = clock();
+            for (int k =0; k < NUM_TRIALS; k++) {
+                for (int j = 0; j < NUM_ITERATIONS; j++) {
+                    cordic_naive_rotation(z_i, &x_o, &y_o, &z_o);
+                }
+            }
+            time_end = clock();
+            time_cordic = (time_end - time_start) / NUM_TRIALS;
+            printf("Cordic naive rotation took %d cycles , z_i = %i\n", time_cordic, z_i);
+
+            /* Verify naive rotation mode */
+            zd_o = (double) z_o / SCALE_FACTOR;
+            yd_o = (double) y_o / SCALE_FACTOR;
+            xd_o = (double) x_o / SCALE_FACTOR;
+            printf("\nReference:\n");
+            double cos_z = cos(Z_ROTATION_MODE);
+            double sin_z = sin(Z_ROTATION_MODE);
+            printf("x = %f\ny = %f\n", cos_z , sin_z);
+            printf("\nRotation mode output:\n");
+            printf("zd_o = %f\n", zd_o);
+            printf("xd_o = %f\n", xd_o);
+            printf("yd_o = %f\n", yd_o);
         }
 
         if (strcmp(argv[i], "-o1") == 0) {
