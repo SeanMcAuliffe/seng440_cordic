@@ -21,6 +21,7 @@
 #include "opt3_cordic.h"
 #include "opt3b_cordic.h"
 #include "neon_cordic.h"
+#include "neon_unrolled_cordic.h"
 #include "math_reference.h"
 #include "utilities.h"
 #include "constants.h"
@@ -362,13 +363,10 @@ int main(int argc, char* argv[])
             /* START VECTORING */
             printf("NEON CORDIC-Vectoring\n");
             time_start = clock();
-            printf("1\n");
             for (int k = 0; k < NUM_TRIALS; k++)
             {
-                printf("2\n");
                 for (int j = 0; j < NUM_ITERATIONS; j++)
                 {
-                    printf("3\n");
                     neon_cordic_vectoring(x_i, y_i, &x_o, &z_o);
                 }
             }
@@ -382,28 +380,27 @@ int main(int argc, char* argv[])
             printf("x = vector(y/z):   %f\n", xd_o * ((double) K_SCALE / (double) SCALE_FACTOR));
             printf("binary(z):         "); binary_print(z_o);
             printf("binary(x):         "); binary_print(x_o); printf("\n");
-             /* END VECTORING */
 
-             /* START ROTATION */
-            // printf("NEON CORDIC-Rotation\n");
-            // time_start = clock();
-            // for (int k = 0; k < NUM_TRIALS; k++)
-            // {
-            //     for (int j = 0; j < NUM_ITERATIONS; j++)
-            //     {
-            //         cordic_opt3b_rotation(z_i, &x_o, &y_o);
-            //     }
-            // }
-            // time_end = clock();
-            // time_elapsed = (time_end - time_start) / NUM_TRIALS;
-            // yd_o = (double) y_o / SCALE_FACTOR;
-            // xd_o = (double) x_o / SCALE_FACTOR;
-            // printf("Average ticks:     %d\n", time_elapsed);
-            // printf("x = rotate(z):     %f\n", xd_o);
-            // printf("y = rotate(z):     %f\n", yd_o);
-            // printf("binary(x):         "); binary_print(x_o);
-            // printf("binary(y):         "); binary_print(y_o); printf("\n");
-            // /* END ROTATION */
+            printf("NEON-Unrolled CORDIC-Vectoring\n");
+            time_start = clock();
+            for (int k = 0; k < NUM_TRIALS; k++)
+            {
+                for (int j = 0; j < NUM_ITERATIONS; j++)
+                {
+                    neon_unrolled_cordic_vectoring(x_i, y_i, &x_o, &z_o);
+                }
+            }
+            time_end = clock();
+            time_elapsed =  (time_end - time_start) / NUM_TRIALS;
+            zd_o = (double) z_o / SCALE_FACTOR;
+            yd_o = (double) y_o / SCALE_FACTOR;
+            xd_o = (double) x_o / SCALE_FACTOR;
+            printf("Average ticks:     %d\n", time_elapsed);
+            printf("z = vector(y/z):   %f\n", zd_o);
+            printf("x = vector(y/z):   %f\n", xd_o * ((double) K_SCALE / (double) SCALE_FACTOR));
+            printf("binary(z):         "); binary_print(z_o);
+            printf("binary(x):         "); binary_print(x_o); printf("\n");
+             /* END VECTORING */
             #endif
         }
     }

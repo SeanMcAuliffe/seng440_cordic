@@ -5,8 +5,8 @@
 # optimization flags.
 
 DEFINES=("-D REFERENCE" "-D O1" "-D NAIVE" "-D O2" "-D O3" "-D O3b" "-D NEON")
-MODULES=("naive_cordic.c" "opt1_cordic.c" "opt2_cordic.c" "opt3_cordic.c" "opt3b_cordic.c" "neon_cordic.c")
-OBJECTS=("naive_cordic.o" "opt1_cordic.o" "opt2_cordic.o" "opt3_cordic.o" "opt3b_cordic.o" "neon_cordic.o")
+MODULES=("naive_cordic.c" "opt1_cordic.c" "opt2_cordic.c" "opt3_cordic.c" "opt3b_cordic.c" "neon_cordic.c" "neon_unrolled_cordic.c")
+OBJECTS=("naive_cordic.o" "opt1_cordic.o" "opt2_cordic.o" "opt3_cordic.o" "opt3b_cordic.o" "neon_cordic.o" "neon_unrolled_cordic.o")
 OPT_FLAG=("-O0" "-O1" "-O2" "-O3")
 CC=""
 FLAGS=""

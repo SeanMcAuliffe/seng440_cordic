@@ -6,6 +6,7 @@
 */
 
 #include <stdint.h>
+#include "constants.h"
 
 /*
 * This function implements the CORDIC algorithm in
@@ -22,281 +23,317 @@ void cordic_opt3b_vectoring(register int32_t x,
                                    int32_t* restrict x_o,
                                    int32_t* restrict z_o)
 {
+    // ************************************************
+    // *** ROLLED IMPLEMENTATION *** //
     register int32_t x_temp_1, y_temp_1, z_temp;
     register int32_t x_temp_2;
+    register int32_t i;
 
     x_temp_1 = x;
     y_temp_1 = y;
     z_temp = 0;
 
-    if (y_temp_1 >= 0)
+    for (i = 0; i < 19; i++)
     {
-        x_temp_2 = x_temp_1 + (y_temp_1);
-        y_temp_1 -= (x_temp_1);
-        z_temp += 411774;
+        if (y_temp_1 >= 0)
+        {
+            /* Rotate downwards by arctan(2^-i) */
+            x_temp_2 = x_temp_1 + (y_temp_1 >> i);
+            y_temp_1 -= (x_temp_1 >> i);
+            z_temp += z_table[i];
+        } 
+        else
+        {
+            /* Rotate upwards by arctan(2^-i) */
+            x_temp_2 = x_temp_1 - (y_temp_1 >> i);
+            y_temp_1 += (x_temp_1 >> i);
+            z_temp -= z_table[i];
+        }
+        x_temp_1 = x_temp_2;
     }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1);
-        y_temp_1 += (x_temp_1);
-        z_temp -= 411774;
-    }
-    x_temp_1 = x_temp_2;
 
-    if (y_temp_1 >= 0)
-    {
-        x_temp_2 = x_temp_1 + (y_temp_1>>1);
-        y_temp_1 -= (x_temp_1>>1);
-        z_temp += 243084;
-    }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1>>1);
-        y_temp_1 += (x_temp_1>>1);
-        z_temp -= 243084;
-    }
-    x_temp_1 = x_temp_2;
-
-    if (y_temp_1 >= 0)
-    {
-        x_temp_2 = x_temp_1 + (y_temp_1>>2);
-        y_temp_1 -= (x_temp_1>>2);
-        z_temp += 128439;
-    }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1>>2);
-        y_temp_1 += (x_temp_1>>2);
-        z_temp -= 128439;
-    }
-    x_temp_1 = x_temp_2;
-
-    if (y_temp_1 >= 0)
-    {
-        x_temp_2 = x_temp_1 + (y_temp_1>>3);
-        y_temp_1 -= (x_temp_1>>3);
-        z_temp += 65197;
-    }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1>>3);
-        y_temp_1 += (x_temp_1>>3);
-        z_temp -= 65197;
-    }
-    x_temp_1 = x_temp_2;
-
-    if (y_temp_1 >= 0)
-    {
-        x_temp_2 = x_temp_1 + (y_temp_1>>4);
-        y_temp_1 -= (x_temp_1>>4);
-        z_temp += 32725;
-    }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1>>4);
-        y_temp_1 += (x_temp_1>>4);
-        z_temp -= 32725;
-    }
-    x_temp_1 = x_temp_2;
-
-    if (y_temp_1 >= 0)
-    {
-        x_temp_2 = x_temp_1 + (y_temp_1>>5);
-        y_temp_1 -= (x_temp_1>>5);
-        z_temp += 16378;
-    }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1>>5);
-        y_temp_1 += (x_temp_1>>5);
-        z_temp -= 16378;
-    }
-    x_temp_1 = x_temp_2;
-
-    if (y_temp_1 >= 0)
-    {
-        x_temp_2 = x_temp_1 + (y_temp_1>>6);
-        y_temp_1 -= (x_temp_1>>6);
-        z_temp += 8191;
-    }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1>>6);
-        y_temp_1 += (x_temp_1>>6);
-        z_temp -= 8191;
-    }
-    x_temp_1 = x_temp_2;
-
-    if (y_temp_1 >= 0)
-    {
-        x_temp_2 = x_temp_1 + (y_temp_1>>7);
-        y_temp_1 -= (x_temp_1>>7);
-        z_temp += 4095;
-    }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1>>7);
-        y_temp_1 += (x_temp_1>>7);
-        z_temp -= 4095;
-    }
-    x_temp_1 = x_temp_2;
-
-    if (y_temp_1 >= 0)
-    {
-        x_temp_2 = x_temp_1 + (y_temp_1>>8);
-        y_temp_1 -= (x_temp_1>>8);
-        z_temp += 2047;
-    }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1>>8);
-        y_temp_1 += (x_temp_1>>8);
-        z_temp -= 2047;
-    }
-    x_temp_1 = x_temp_2;
-
-    if (y_temp_1 >= 0)
-    {
-        x_temp_2 = x_temp_1 + (y_temp_1>>9);
-        y_temp_1 -= (x_temp_1>>9);
-        z_temp += 1023;
-    }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1>>9);
-        y_temp_1 += (x_temp_1>>9);
-        z_temp -= 1023;
-    }
-    x_temp_1 = x_temp_2;
-
-    if (y_temp_1 >= 0)
-    {
-        x_temp_2 = x_temp_1 + (y_temp_1>>10);
-        y_temp_1 -= (x_temp_1>>10);
-        z_temp += 511;
-    }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1>>10);
-        y_temp_1 += (x_temp_1>>10);
-        z_temp -= 511;
-    }
-    x_temp_1 = x_temp_2;
-
-    if (y_temp_1 >= 0)
-    {
-        x_temp_2 = x_temp_1 + (y_temp_1>>11);
-        y_temp_1 -= (x_temp_1>>11);
-        z_temp += 255;
-    }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1>>11);
-        y_temp_1 += (x_temp_1>>11);
-        z_temp -= 255;
-    }
-    x_temp_1 = x_temp_2;
-
-    if (y_temp_1 >= 0)
-    {
-        x_temp_2 = x_temp_1 + (y_temp_1>>12);
-        y_temp_1 -= (x_temp_1>>12);
-        z_temp += 127;
-    }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1>>12);
-        y_temp_1 += (x_temp_1>>12);
-        z_temp -= 127;
-    }
-    x_temp_1 = x_temp_2;
-
-    if (y_temp_1 >= 0)
-    {
-        x_temp_2 = x_temp_1 + (y_temp_1>>13);
-        y_temp_1 -= (x_temp_1>>13);
-        z_temp += 63;
-    }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1>>13);
-        y_temp_1 += (x_temp_1>>13);
-        z_temp -= 63;
-    }
-    x_temp_1 = x_temp_2;
-
-    if (y_temp_1 >= 0)
-    {
-        x_temp_2 = x_temp_1 + (y_temp_1>>14);
-        y_temp_1 -= (x_temp_1>>14);
-        z_temp += 31;
-    }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1>>14);
-        y_temp_1 += (x_temp_1>>14);
-        z_temp -= 31;
-    }
-    x_temp_1 = x_temp_2;
-
-    if (y_temp_1 >= 0)
-    {
-        x_temp_2 = x_temp_1 + (y_temp_1>>15);
-        y_temp_1 -= (x_temp_1>>15);
-        z_temp += 15;
-    }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1>>15);
-        y_temp_1 += (x_temp_1>>15);
-        z_temp -= 15;
-    }
-    x_temp_1 = x_temp_2;
-
-    if (y_temp_1 >= 0)
-    {
-        x_temp_2 = x_temp_1 + (y_temp_1>>16);
-        y_temp_1 -= (x_temp_1>>16);
-        z_temp += 7;
-    }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1>>16);
-        y_temp_1 += (x_temp_1>>16);
-        z_temp -= 7;
-    }
-    x_temp_1 = x_temp_2;
-
-    if (y_temp_1 >= 0)
-    {
-        x_temp_2 = x_temp_1 + (y_temp_1>>17);
-        y_temp_1 -= (x_temp_1>>17);
-        z_temp += 3;
-    }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1>>17);
-        y_temp_1 += (x_temp_1>>17);
-        z_temp -= 3;
-    }
-    x_temp_1 = x_temp_2;
-
-    if (y_temp_1 >= 0)
-    {
-        x_temp_2 = x_temp_1 + (y_temp_1>>18);
-        y_temp_1 -= (x_temp_1>>18);
-        z_temp += 1;
-    }
-    else
-    {
-        x_temp_2 = x_temp_1 - (y_temp_1>>18);
-        y_temp_1 += (x_temp_1>>18);
-        z_temp -= 1;
-    }
-    x_temp_1 = x_temp_2;
-
+    /* If we implement rounding, should we be concerned with the 
+    number of significant bits in the output before roudning? */
     *x_o = x_temp_1;
     *z_o = z_temp;
+
+    // ************************************************
+    // // *** UNROLLED IMPLEMENTATION *** //
+    // register int32_t x_temp_1, y_temp_1, z_temp;
+    // register int32_t x_temp_2;
+
+    // x_temp_1 = x;
+    // y_temp_1 = y;
+    // z_temp = 0;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1);
+    //     y_temp_1 -= (x_temp_1);
+    //     z_temp += 411774;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1);
+    //     y_temp_1 += (x_temp_1);
+    //     z_temp -= 411774;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1>>1);
+    //     y_temp_1 -= (x_temp_1>>1);
+    //     z_temp += 243084;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1>>1);
+    //     y_temp_1 += (x_temp_1>>1);
+    //     z_temp -= 243084;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1>>2);
+    //     y_temp_1 -= (x_temp_1>>2);
+    //     z_temp += 128439;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1>>2);
+    //     y_temp_1 += (x_temp_1>>2);
+    //     z_temp -= 128439;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1>>3);
+    //     y_temp_1 -= (x_temp_1>>3);
+    //     z_temp += 65197;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1>>3);
+    //     y_temp_1 += (x_temp_1>>3);
+    //     z_temp -= 65197;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1>>4);
+    //     y_temp_1 -= (x_temp_1>>4);
+    //     z_temp += 32725;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1>>4);
+    //     y_temp_1 += (x_temp_1>>4);
+    //     z_temp -= 32725;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1>>5);
+    //     y_temp_1 -= (x_temp_1>>5);
+    //     z_temp += 16378;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1>>5);
+    //     y_temp_1 += (x_temp_1>>5);
+    //     z_temp -= 16378;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1>>6);
+    //     y_temp_1 -= (x_temp_1>>6);
+    //     z_temp += 8191;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1>>6);
+    //     y_temp_1 += (x_temp_1>>6);
+    //     z_temp -= 8191;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1>>7);
+    //     y_temp_1 -= (x_temp_1>>7);
+    //     z_temp += 4095;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1>>7);
+    //     y_temp_1 += (x_temp_1>>7);
+    //     z_temp -= 4095;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1>>8);
+    //     y_temp_1 -= (x_temp_1>>8);
+    //     z_temp += 2047;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1>>8);
+    //     y_temp_1 += (x_temp_1>>8);
+    //     z_temp -= 2047;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1>>9);
+    //     y_temp_1 -= (x_temp_1>>9);
+    //     z_temp += 1023;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1>>9);
+    //     y_temp_1 += (x_temp_1>>9);
+    //     z_temp -= 1023;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1>>10);
+    //     y_temp_1 -= (x_temp_1>>10);
+    //     z_temp += 511;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1>>10);
+    //     y_temp_1 += (x_temp_1>>10);
+    //     z_temp -= 511;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1>>11);
+    //     y_temp_1 -= (x_temp_1>>11);
+    //     z_temp += 255;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1>>11);
+    //     y_temp_1 += (x_temp_1>>11);
+    //     z_temp -= 255;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1>>12);
+    //     y_temp_1 -= (x_temp_1>>12);
+    //     z_temp += 127;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1>>12);
+    //     y_temp_1 += (x_temp_1>>12);
+    //     z_temp -= 127;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1>>13);
+    //     y_temp_1 -= (x_temp_1>>13);
+    //     z_temp += 63;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1>>13);
+    //     y_temp_1 += (x_temp_1>>13);
+    //     z_temp -= 63;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1>>14);
+    //     y_temp_1 -= (x_temp_1>>14);
+    //     z_temp += 31;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1>>14);
+    //     y_temp_1 += (x_temp_1>>14);
+    //     z_temp -= 31;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1>>15);
+    //     y_temp_1 -= (x_temp_1>>15);
+    //     z_temp += 15;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1>>15);
+    //     y_temp_1 += (x_temp_1>>15);
+    //     z_temp -= 15;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1>>16);
+    //     y_temp_1 -= (x_temp_1>>16);
+    //     z_temp += 7;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1>>16);
+    //     y_temp_1 += (x_temp_1>>16);
+    //     z_temp -= 7;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1>>17);
+    //     y_temp_1 -= (x_temp_1>>17);
+    //     z_temp += 3;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1>>17);
+    //     y_temp_1 += (x_temp_1>>17);
+    //     z_temp -= 3;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // if (y_temp_1 >= 0)
+    // {
+    //     x_temp_2 = x_temp_1 + (y_temp_1>>18);
+    //     y_temp_1 -= (x_temp_1>>18);
+    //     z_temp += 1;
+    // }
+    // else
+    // {
+    //     x_temp_2 = x_temp_1 - (y_temp_1>>18);
+    //     y_temp_1 += (x_temp_1>>18);
+    //     z_temp -= 1;
+    // }
+    // x_temp_1 = x_temp_2;
+
+    // *x_o = x_temp_1;
+    // *z_o = z_temp;
 
     return;
 }
