@@ -103,3 +103,10 @@ x = vector(y/z):   1.000001
 binary(z):         00000000000001100100100001111010
 binary(x):         00000000000011010010110010010011
 
+NEON-Unrolled CORDIC-Vectoring
+Average ticks:     120
+z = vector(y/z):   0.785389
+x = vector(y/z):   1.000001
+binary(z):         00000000000001100100100001111010
+binary(x):         00000000000011010010110010010011
+

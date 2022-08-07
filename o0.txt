@@ -62,14 +62,14 @@ binary(z):         00000000000001100100100001111010
 binary(x):         00000000000011010010110010010011
 
 Opt-2 CORDIC-Rotation
-Average ticks:     230
+Average ticks:     220
 x = rotate(z):     0.707104
 y = rotate(z):     0.707109
 binary(x):         00000000000001011010100000100110
 binary(y):         00000000000001011010100000101001
 
 Opt-3 CORDIC-Vectoring
-Average ticks:     220
+Average ticks:     230
 z = vector(y/z):   0.785389
 x = vector(y/z):   1.000001
 binary(z):         00000000000001100100100001111010
@@ -90,14 +90,21 @@ binary(z):         00000000000001100100100001111010
 binary(x):         00000000000011010010110010010011
 
 Opt-3b CORDIC-Rotation
-Average ticks:     100
+Average ticks:     90
 x = rotate(z):     0.707104
 y = rotate(z):     0.707109
 binary(x):         00000000000001011010100000100110
 binary(y):         00000000000001011010100000101001
 
 NEON CORDIC-Vectoring
-Average ticks:     1130
+Average ticks:     1110
+z = vector(y/z):   0.785389
+x = vector(y/z):   1.000001
+binary(z):         00000000000001100100100001111010
+binary(x):         00000000000011010010110010010011
+
+NEON-Unrolled CORDIC-Vectoring
+Average ticks:     990
 z = vector(y/z):   0.785389
 x = vector(y/z):   1.000001
 binary(z):         00000000000001100100100001111010
