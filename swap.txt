@@ -1,0 +1,145 @@
+
+Program Inputs
+Real Z:            0.785398
+Real Y:            0.707106
+Real X:            0.707106
+Integer Z:         411774
+Integer Y:         370727
+Integer X:         370727
+Binary Z:          00000000000001100100100001111110
+Binary Y:          00000000000001011010100000100111
+Binary X:          00000000000001011010100000100111
+
+NEON CORDIC-Vectoring
+1
+e0 = 370727, e1 = 370727
+2
+e0 = 370727, e1 = 370727
+3
+e0 = -1, e1 = 1
+4
+e0 = 1, e1 = -1
+5 (y_temp) 
+e0 = 370727, e1 (y_temp) = 370727
+7 (in loop) 
+e0 (y) = 370727, e1 (x) = 370727
+6 (before swap) 
+e0 (x) = 741454, e1 (y) = 0
+6 (after swap) 
+e0 (y) = 0, e1 (x) = 741454
+5 (y_temp) 
+e0 = 741454, e1 (y_temp) = 0
+7 (in loop) 
+e0 (y) = 0, e1 (x) = 370727
+6 (before swap) 
+e0 (x) = 741454, e1 (y) = -370727
+6 (after swap) 
+e0 (y) = -370727, e1 (x) = 741454
+5 (y_temp) 
+e0 = 741454, e1 (y_temp) = -370727
+6 (before swap) 
+e0 (x) = 556091, e1 (y) = -463409
+6 (after swap) 
+e0 (y) = -463409, e1 (x) = 556091
+5 (y_temp) 
+e0 = 556091, e1 (y_temp) = -463409
+6 (before swap) 
+e0 (x) = 486580, e1 (y) = -521336
+6 (after swap) 
+e0 (y) = -521336, e1 (x) = 486580
+5 (y_temp) 
+e0 = 486580, e1 (y_temp) = -521336
+6 (before swap) 
+e0 (x) = 456169, e1 (y) = -553920
+6 (after swap) 
+e0 (y) = -553920, e1 (x) = 456169
+5 (y_temp) 
+e0 = 456169, e1 (y_temp) = -553920
+6 (before swap) 
+e0 (x) = 441914, e1 (y) = -571230
+6 (after swap) 
+e0 (y) = -571230, e1 (x) = 441914
+5 (y_temp) 
+e0 = 441914, e1 (y_temp) = -571230
+6 (before swap) 
+e0 (x) = 435010, e1 (y) = -580156
+6 (after swap) 
+e0 (y) = -580156, e1 (x) = 435010
+5 (y_temp) 
+e0 = 435010, e1 (y_temp) = -580156
+6 (before swap) 
+e0 (x) = 431612, e1 (y) = -584689
+6 (after swap) 
+e0 (y) = -584689, e1 (x) = 431612
+5 (y_temp) 
+e0 = 431612, e1 (y_temp) = -584689
+6 (before swap) 
+e0 (x) = 429927, e1 (y) = -586973
+6 (after swap) 
+e0 (y) = -586973, e1 (x) = 429927
+5 (y_temp) 
+e0 = 429927, e1 (y_temp) = -586973
+6 (before swap) 
+e0 (x) = 429088, e1 (y) = -588120
+6 (after swap) 
+e0 (y) = -588120, e1 (x) = 429088
+5 (y_temp) 
+e0 = 429088, e1 (y_temp) = -588120
+6 (before swap) 
+e0 (x) = 428669, e1 (y) = -588695
+6 (after swap) 
+e0 (y) = -588695, e1 (x) = 428669
+5 (y_temp) 
+e0 = 428669, e1 (y_temp) = -588695
+6 (before swap) 
+e0 (x) = 428460, e1 (y) = -588983
+6 (after swap) 
+e0 (y) = -588983, e1 (x) = 428460
+5 (y_temp) 
+e0 = 428460, e1 (y_temp) = -588983
+6 (before swap) 
+e0 (x) = 428356, e1 (y) = -589127
+6 (after swap) 
+e0 (y) = -589127, e1 (x) = 428356
+5 (y_temp) 
+e0 = 428356, e1 (y_temp) = -589127
+6 (before swap) 
+e0 (x) = 428304, e1 (y) = -589199
+6 (after swap) 
+e0 (y) = -589199, e1 (x) = 428304
+5 (y_temp) 
+e0 = 428304, e1 (y_temp) = -589199
+6 (before swap) 
+e0 (x) = 428278, e1 (y) = -589235
+6 (after swap) 
+e0 (y) = -589235, e1 (x) = 428278
+5 (y_temp) 
+e0 = 428278, e1 (y_temp) = -589235
+6 (before swap) 
+e0 (x) = 428265, e1 (y) = -589253
+6 (after swap) 
+e0 (y) = -589253, e1 (x) = 428265
+5 (y_temp) 
+e0 = 428265, e1 (y_temp) = -589253
+6 (before swap) 
+e0 (x) = 428259, e1 (y) = -589262
+6 (after swap) 
+e0 (y) = -589262, e1 (x) = 428259
+5 (y_temp) 
+e0 = 428259, e1 (y_temp) = -589262
+6 (before swap) 
+e0 (x) = 428256, e1 (y) = -589267
+6 (after swap) 
+e0 (y) = -589267, e1 (x) = 428256
+5 (y_temp) 
+e0 = 428256, e1 (y_temp) = -589267
+6 (before swap) 
+e0 (x) = 428255, e1 (y) = -589270
+6 (after swap) 
+e0 (y) = -589270, e1 (x) = 428255
+Average ticks:     0
+z = vector(y/z):   0.754833
+x = vector(y/z):   0.496023
+binary(z):         00000000000001100000100111100110
+binary(x):         00000000000001101000100011011111
+
