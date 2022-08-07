@@ -14,10 +14,11 @@
 #include <time.h>
 #include <string.h>
 #include <stdint.h>
-//#include "cordic_naive.c"
-//#include "cordic_opt1.c"
+// #include "cordic_naive.c"
+// #include "cordic_opt1.c"
+// #include "cordic_opt2.c"
 #include "math_reference.c"
-#include "von_neumann.c"
+//#include "von_neumann.c"
 #include <math.h>
 #include "constants.h"
 #include "targets.h"
@@ -65,7 +66,7 @@ int main(int argc, char* argv[]) {
 
     /* Timing Variables */
     clock_t time_start, time_end;
-    int time_elapsed;
+    clock_t time_elapsed;
 
     /* Run all modes which have been specified */
     for (int i = 1; i < argc; i++) {
@@ -83,7 +84,7 @@ int main(int argc, char* argv[]) {
                 }
             }
             time_end = clock();
-            time_elapsed =   (time_end - time_start) ;// (double) NUM_TRIALS);
+            time_elapsed = (time_end - time_start) / NUM_TRIALS;
             printf("Average ticks:     %d\n", time_elapsed);
             printf("z = arctan(y/z):   %f\n", zd_o);
             printf("binary(z):         "); binary_print(z_i); printf("\n");
@@ -99,7 +100,7 @@ int main(int argc, char* argv[]) {
                 }
             }
             time_end = clock();
-            time_elapsed =   (time_end - time_start) ;// (double) NUM_TRIALS);
+            time_elapsed = (time_end - time_start) / NUM_TRIALS;
             printf("Average ticks:     %d\n", time_elapsed);
             printf("y = sin(z):        %f\n", yd_o);
             printf("x = cos(z):        %f\n", xd_o);
@@ -121,7 +122,7 @@ int main(int argc, char* argv[]) {
                 }
             }
             time_end = clock();
-            time_elapsed =   (time_end - time_start) ;// (double) NUM_TRIALS);
+            time_elapsed =  (time_end - time_start) / NUM_TRIALS;
             zd_o = (double) z_o / SCALE_FACTOR;
             yd_o = (double) y_o / SCALE_FACTOR;
             xd_o = (double) x_o / SCALE_FACTOR;
@@ -143,7 +144,7 @@ int main(int argc, char* argv[]) {
                 }
             }
             time_end = clock();
-            time_elapsed =   (time_end - time_start) ;// (double) NUM_TRIALS);
+            time_elapsed =  (time_end - time_start) / NUM_TRIALS;
             zd_o = (double) z_o / SCALE_FACTOR;
             yd_o = (double) y_o / SCALE_FACTOR;
             xd_o = (double) x_o / SCALE_FACTOR;
@@ -165,11 +166,11 @@ int main(int argc, char* argv[]) {
             time_start = clock();
             for (int k = 0; k < NUM_TRIALS; k++) {
                 for (int j = 0; j < NUM_ITERATIONS; j++) {
-                    cordic_opt1_vectoring(x_i, y_i, &x_o, &z_o);
+                cordic_opt1_vectoring(x_i, y_i, &x_o, &z_o);
                 }
             }
             time_end = clock();
-            time_elapsed =   (time_end - time_start) ;// (double) NUM_TRIALS);
+            time_elapsed =  (time_end - time_start) / NUM_TRIALS;
             zd_o = (double) z_o / SCALE_FACTOR;
             yd_o = (double) y_o / SCALE_FACTOR;
             xd_o = (double) x_o / SCALE_FACTOR;
@@ -185,11 +186,12 @@ int main(int argc, char* argv[]) {
             time_start = clock();
             for (int k = 0; k < NUM_TRIALS; k++) {
                 for (int j = 0; j < NUM_ITERATIONS; j++) {
-                    cordic_opt1_rotation(z_i, &x_o, &y_o);
+                cordic_opt1_rotation(z_i, &x_o, &y_o);
                 }
             }
+            // get time elapsed, divide by num_trials.
             time_end = clock();
-            time_elapsed =   (time_end - time_start) ;// (double) NUM_TRIALS);
+            time_elapsed =  (time_end - time_start) / NUM_TRIALS;
             yd_o = (double) y_o / SCALE_FACTOR;
             xd_o = (double) x_o / SCALE_FACTOR;
             printf("Average ticks:     %d\n", time_elapsed);
@@ -212,7 +214,7 @@ int main(int argc, char* argv[]) {
                 }
             }
             time_end = clock();
-            time_elapsed =   (time_end - time_start);// ;// (double) NUM_TRIALS);
+            time_elapsed =  (time_end - time_start) / NUM_TRIALS;
             zd_o = (double) z_o / SCALE_FACTOR;
             yd_o = (double) y_o / SCALE_FACTOR;
             xd_o = (double) x_o / SCALE_FACTOR;
@@ -232,7 +234,7 @@ int main(int argc, char* argv[]) {
                 }
             }
             time_end = clock();
-            time_elapsed =   (time_end - time_start) ;// (double) NUM_TRIALS);
+            time_elapsed = (time_end - time_start) / NUM_TRIALS;
             yd_o = (double) y_o / SCALE_FACTOR;
             xd_o = (double) x_o / SCALE_FACTOR;
             printf("Average ticks:     %d\n", time_elapsed);
