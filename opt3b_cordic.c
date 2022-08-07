@@ -24,7 +24,6 @@ void cordic_opt3b_vectoring(register int32_t x,
 {
     register int32_t x_temp_1, y_temp_1, z_temp;
     register int32_t x_temp_2;
-    register int32_t i, sign;
 
     x_temp_1 = x;
     y_temp_1 = y;
@@ -319,7 +318,6 @@ void cordic_opt3b_rotation(register int32_t z,
 {
     register int32_t x_temp_1, y_temp_1, z_temp;
     register int32_t x_temp_2;
-    register int32_t i, sign;
 
     x_temp_1 = 318375;
     y_temp_1 = 0;

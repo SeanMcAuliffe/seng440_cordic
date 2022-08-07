@@ -20,7 +20,6 @@ public void cordic_opt2_vectoring(register int32_t x, register int32_t y,
 {
     register int32_t x_temp_1, y_temp_1, z_temp;
     register int32_t x_temp_2;
-    register int32_t i, k;
     register int32_t sign;
 
     x_temp_1 = x;
@@ -159,7 +158,7 @@ public void cordic_opt2_rotation(register int32_t z,
 {
     register int32_t x_temp_1, y_temp_1, z_temp;
     register int32_t x_temp_2;
-    register int32_t i, sign;
+    register int32_t sign;
 
     x_temp_1 = K_FACTOR;
     y_temp_1 = 0;
