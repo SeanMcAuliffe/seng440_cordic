@@ -20,6 +20,7 @@
 #include "von_neumann.c"
 #include <math.h>
 #include "constants.h"
+#include "targets.h"
 
 /* For debugging purposes, print the
 * binary representation of a number */
@@ -82,7 +83,7 @@ int main(int argc, char* argv[]) {
                 }
             }
             time_end = clock();
-            time_elapsed = (int) ((double) (time_end - time_start) / (double) NUM_TRIALS);
+            time_elapsed =   (time_end - time_start) ;// (double) NUM_TRIALS);
             printf("Average ticks:     %d\n", time_elapsed);
             printf("z = arctan(y/z):   %f\n", zd_o);
             printf("binary(z):         "); binary_print(z_i); printf("\n");
@@ -98,7 +99,7 @@ int main(int argc, char* argv[]) {
                 }
             }
             time_end = clock();
-            time_elapsed = (int) ((double) (time_end - time_start) / (double) NUM_TRIALS);
+            time_elapsed =   (time_end - time_start) ;// (double) NUM_TRIALS);
             printf("Average ticks:     %d\n", time_elapsed);
             printf("y = sin(z):        %f\n", yd_o);
             printf("x = cos(z):        %f\n", xd_o);
@@ -120,7 +121,7 @@ int main(int argc, char* argv[]) {
                 }
             }
             time_end = clock();
-            time_elapsed = (int) ((double) (time_end - time_start) / (double) NUM_TRIALS);
+            time_elapsed =   (time_end - time_start) ;// (double) NUM_TRIALS);
             zd_o = (double) z_o / SCALE_FACTOR;
             yd_o = (double) y_o / SCALE_FACTOR;
             xd_o = (double) x_o / SCALE_FACTOR;
@@ -142,7 +143,7 @@ int main(int argc, char* argv[]) {
                 }
             }
             time_end = clock();
-            time_elapsed = (int) ((double) (time_end - time_start) / (double) NUM_TRIALS);
+            time_elapsed =   (time_end - time_start) ;// (double) NUM_TRIALS);
             zd_o = (double) z_o / SCALE_FACTOR;
             yd_o = (double) y_o / SCALE_FACTOR;
             xd_o = (double) x_o / SCALE_FACTOR;
@@ -168,7 +169,7 @@ int main(int argc, char* argv[]) {
                 }
             }
             time_end = clock();
-            time_elapsed = (int) ((double) (time_end - time_start) / (double) NUM_TRIALS);
+            time_elapsed =   (time_end - time_start) ;// (double) NUM_TRIALS);
             zd_o = (double) z_o / SCALE_FACTOR;
             yd_o = (double) y_o / SCALE_FACTOR;
             xd_o = (double) x_o / SCALE_FACTOR;
@@ -188,7 +189,7 @@ int main(int argc, char* argv[]) {
                 }
             }
             time_end = clock();
-            time_elapsed = (int) ((double) (time_end - time_start) / (double) NUM_TRIALS);
+            time_elapsed =   (time_end - time_start) ;// (double) NUM_TRIALS);
             yd_o = (double) y_o / SCALE_FACTOR;
             xd_o = (double) x_o / SCALE_FACTOR;
             printf("Average ticks:     %d\n", time_elapsed);
@@ -211,7 +212,7 @@ int main(int argc, char* argv[]) {
                 }
             }
             time_end = clock();
-            time_elapsed = (int) ((double) (time_end - time_start) / (double) NUM_TRIALS);
+            time_elapsed =   (time_end - time_start);// ;// (double) NUM_TRIALS);
             zd_o = (double) z_o / SCALE_FACTOR;
             yd_o = (double) y_o / SCALE_FACTOR;
             xd_o = (double) x_o / SCALE_FACTOR;
@@ -231,7 +232,7 @@ int main(int argc, char* argv[]) {
                 }
             }
             time_end = clock();
-            time_elapsed = (int) ((double) (time_end - time_start) / (double) NUM_TRIALS);
+            time_elapsed =   (time_end - time_start) ;// (double) NUM_TRIALS);
             yd_o = (double) y_o / SCALE_FACTOR;
             xd_o = (double) x_o / SCALE_FACTOR;
             printf("Average ticks:     %d\n", time_elapsed);

@@ -4,9 +4,9 @@
 # implementation into ARM binaries, using all possible compiler
 # optimization flags.
 
-DEFINES=("-D REFERENCE" "-D O1" "-D NAIVE")
+DEFINES=("-D REFERENCE" "-D O1" "-D NAIVE" "-D O2")
 MODULES=("cordic_naive.c" "cordic_opt1.c" "cordic_opt2.c")
-OBJECTS=("cordic_naive.o" "cordic_opt1.o")
+OBJECTS=("cordic_naive.o" "cordic_opt1.o" "cordic_opt2.o")
 OPT_FLAG=("-O0" "-O1" "-O2" "-O3")
 CC=""
 FLAGS=""
