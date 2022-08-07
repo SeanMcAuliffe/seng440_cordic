@@ -4,8 +4,6 @@
 * This version uses 23 bits to achieve 16 bits of final precision.
 */
 
-#include <stdio.h>
-#include <math.h>
 #include <stdint.h>
 #include "constants.h"
 
@@ -16,7 +14,9 @@
 * The arguments x and y represent the input vector. The output is stored in x_o, y_o and z_o
 * (_o for output).
 */
-void cordic_naive_vectoring(int32_t x, int32_t y, int32_t* x_o, int32_t* y_o, int32_t* z_o) {
+public void cordic_naive_vectoring(int32_t x, int32_t y, int32_t* x_o,
+                                   int32_t* y_o, int32_t* z_o)
+{
     int32_t x_temp_1, y_temp_1, z_temp;
     int32_t x_temp_2, y_temp_2;
     int32_t i;
@@ -25,13 +25,17 @@ void cordic_naive_vectoring(int32_t x, int32_t y, int32_t* x_o, int32_t* y_o, in
     y_temp_1 = y;
     z_temp = 0;
 
-    for (i = 0; i < 19; i++) {
-        if (y_temp_1 >= 0) {
+    for (i = 0; i < 19; i++)
+    {
+        if (y_temp_1 >= 0)
+        {
             /* Rotate downwards by arctan(2^-i) */
             x_temp_2 = x_temp_1 + (y_temp_1 >> i);
             y_temp_2 = y_temp_1 - (x_temp_1 >> i);
             z_temp += z_table[i];
-        } else {
+        } 
+        else
+        {
             /* Rotate upwards by arctan(2^-i) */
             x_temp_2 = x_temp_1 - (y_temp_1 >> i);
             y_temp_2 = y_temp_1 + (x_temp_1 >> i);
@@ -55,7 +59,9 @@ void cordic_naive_vectoring(int32_t x, int32_t y, int32_t* x_o, int32_t* y_o, in
 * The input argument z represent the input angle. The output is stored in x_o, y_o and z_o
 * (_o for output). x_o and y_o represent cos(z), sin(z) respectively.
 */
-void cordic_naive_rotation(int32_t z, int32_t *x_o, int32_t *y_o, int32_t *z_o) {
+public void cordic_naive_rotation(int32_t z, int32_t *x_o,
+                                  int32_t *y_o, int32_t *z_o)
+{
     int32_t x_temp_1, y_temp_1, z_temp;
     int32_t x_temp_2, y_temp_2;
     int32_t i;
@@ -64,12 +70,16 @@ void cordic_naive_rotation(int32_t z, int32_t *x_o, int32_t *y_o, int32_t *z_o) 
     y_temp_1 = 0;
     z_temp = z;
 
-    for (i = 0; i < 19; i++) {
-        if (z_temp < 0) {
+    for (i = 0; i < 19; i++)
+    {
+        if (z_temp < 0)
+        {
             x_temp_2 = x_temp_1 + (y_temp_1 >> i);
             y_temp_2 = y_temp_1 - (x_temp_1 >> i);
             z_temp += z_table[i];
-        } else {
+        }
+        else
+        {
             x_temp_2 = x_temp_1 - (y_temp_1 >> i);
             y_temp_2 = y_temp_1 + (x_temp_1 >> i);
             z_temp -= z_table[i];

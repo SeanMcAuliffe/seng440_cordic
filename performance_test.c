@@ -14,25 +14,18 @@
 #include <time.h>
 #include <string.h>
 #include <stdint.h>
-// #include "cordic_naive.c"
-// #include "cordic_opt1.c"
-// #include "cordic_opt2.c"
-#include "math_reference.c"
-//#include "von_neumann.c"
-#include <math.h>
+#include <stdio.h>
+#include "naive_cordic.h"
+#include "opt1_cordic.h"
+#include "opt2_cordic.h"
+#include "opt3_cordic.h"
+#include "opt3b_cordic.h"
+#include "math_reference.h"
+#include "utilities.h"
 #include "constants.h"
-#include "targets.h"
 
-/* For debugging purposes, print the
-* binary representation of a number */
-void binary_print(int32_t x) {
-    for (int i = 31; i >= 0; i--) {
-        printf("%d", (x >> i) & 1);
-    }
-    printf("\n");
-}
-
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
 
     /* CORDIC Real Inputs for Vectoring and Rotation Modes */
     double x_d = X_VECTORING_MODE;
@@ -69,16 +62,20 @@ int main(int argc, char* argv[]) {
     clock_t time_elapsed;
 
     /* Run all modes which have been specified */
-    for (int i = 1; i < argc; i++) {
+    for (int i = 1; i < argc; i++)
+    {
 
         /* Use floating point emulation for reference */
-        if (strcmp(argv[i], "-r") == 0) {
+        if (strcmp(argv[i], "-r") == 0)
+        {
             #ifdef REFERENCE
             /* START ATAN REFERNCE */
             printf("Atan Reference\n");
             time_start = clock();
-            for (int k = 0; k < NUM_TRIALS; k++) {
-                for (int j = 0; j < NUM_ITERATIONS; j++) {
+            for (int k = 0; k < NUM_TRIALS; k++)
+            {
+                for (int j = 0; j < NUM_ITERATIONS; j++)
+                {
                     // z_d = atan(y_d / x_d);
                     atan_reference(x_d, y_d, &zd_o); 
                 }
@@ -93,8 +90,10 @@ int main(int argc, char* argv[]) {
             /* START SINCOS REFERNCE */
             printf("Sin/Cos Reference\n");
             time_start = clock();
-            for (int k = 0; k < NUM_TRIALS; k++) {
-                for (int j = 0; j < NUM_ITERATIONS; j++) {
+            for (int k = 0; k < NUM_TRIALS; k++)
+            {
+                for (int j = 0; j < NUM_ITERATIONS; j++)
+                {
                     //x_d = cos(z_d); y_d = sin(z_d);
                     sincos_reference(z_d_rot, &xd_o, &yd_o); 
                 }
@@ -111,13 +110,16 @@ int main(int argc, char* argv[]) {
         }
 
         /* Naive Fixed Point Implementation */
-        if (strcmp(argv[i], "-n") == 0) {
+        if (strcmp(argv[i], "-n") == 0)
+        {
             #ifdef NAIVE
             /* START VECTORING */
             printf("Naive CORDIC-Vectoring\n");
             time_start = clock();
-            for (int k =0; k < NUM_TRIALS; k++) {
-                for (int j = 0; j < NUM_ITERATIONS; j++) {
+            for (int k =0; k < NUM_TRIALS; k++)
+            {
+                for (int j = 0; j < NUM_ITERATIONS; j++)
+                {
                     cordic_naive_vectoring(x_i, y_i, &x_o, &y_o, &z_o);
                 }
             }
@@ -138,8 +140,10 @@ int main(int argc, char* argv[]) {
              /* START ROTATION */
             printf("Naive CORDIC-Rotation\n");
             time_start = clock();
-            for (int k = 0; k < NUM_TRIALS; k++) {
-                for (int j = 0; j < NUM_ITERATIONS; j++) {
+            for (int k = 0; k < NUM_TRIALS; k++)
+            {
+                for (int j = 0; j < NUM_ITERATIONS; j++)
+                {
                     cordic_naive_rotation(z_i, &x_o, &y_o, &z_o);
                 }
             }
@@ -159,13 +163,16 @@ int main(int argc, char* argv[]) {
             #endif
         }
 
-        if (strcmp(argv[i], "-o1") == 0) {
+        if (strcmp(argv[i], "-o1") == 0)
+        {
             #ifdef O1
              /* START VECTORING */
             printf("Opt-1 CORDIC-Vectoring\n");
             time_start = clock();
-            for (int k = 0; k < NUM_TRIALS; k++) {
-                for (int j = 0; j < NUM_ITERATIONS; j++) {
+            for (int k = 0; k < NUM_TRIALS; k++)
+            {
+                for (int j = 0; j < NUM_ITERATIONS; j++)
+                {
                 cordic_opt1_vectoring(x_i, y_i, &x_o, &z_o);
                 }
             }
@@ -184,8 +191,10 @@ int main(int argc, char* argv[]) {
              /* START ROTATION */
             printf("Opt-1 CORDIC-Rotation\n");
             time_start = clock();
-            for (int k = 0; k < NUM_TRIALS; k++) {
-                for (int j = 0; j < NUM_ITERATIONS; j++) {
+            for (int k = 0; k < NUM_TRIALS; k++)
+            {
+                for (int j = 0; j < NUM_ITERATIONS; j++)
+                {
                 cordic_opt1_rotation(z_i, &x_o, &y_o);
                 }
             }
@@ -203,13 +212,16 @@ int main(int argc, char* argv[]) {
             #endif
         }
 
-        if (strcmp(argv[i], "-o2") == 0) {
+        if (strcmp(argv[i], "-o2") == 0)
+        {
             #ifdef O2
              /* START VECTORING */
             printf("Opt-2 CORDIC-Vectoring\n");
             time_start = clock();
-            for (int k = 0; k < NUM_TRIALS; k++) {
-                for (int j = 0; j < NUM_ITERATIONS; j++) {
+            for (int k = 0; k < NUM_TRIALS; k++)
+            {
+                for (int j = 0; j < NUM_ITERATIONS; j++)
+                {
                     cordic_opt2_vectoring(x_i, y_i, &x_o, &z_o);
                 }
             }
@@ -228,8 +240,10 @@ int main(int argc, char* argv[]) {
              /* START ROTATION */
             printf("Opt-2 CORDIC-Rotation\n");
             time_start = clock();
-            for (int k = 0; k < NUM_TRIALS; k++) {
-                for (int j = 0; j < NUM_ITERATIONS; j++) {
+            for (int k = 0; k < NUM_TRIALS; k++)
+            {
+                for (int j = 0; j < NUM_ITERATIONS; j++) 
+                {
                     cordic_opt2_rotation(z_i, &x_o, &y_o);
                 }
             }
@@ -246,12 +260,100 @@ int main(int argc, char* argv[]) {
             #endif
         }
 
-        if (strcmp(argv[i], "-o3") == 0) {
-            printf("Running Optimized 3\n");
+        if (strcmp(argv[i], "-o3") == 0)
+        {
+            #ifdef O3
+            /* START VECTORING */
+            printf("Opt-3 CORDIC-Vectoring\n");
+            time_start = clock();
+            for (int k = 0; k < NUM_TRIALS; k++)
+            {
+                for (int j = 0; j < NUM_ITERATIONS; j++)
+                {
+                    cordic_opt3_vectoring(x_i, y_i, &x_o, &z_o);
+                }
+            }
+            time_end = clock();
+            time_elapsed =  (time_end - time_start) / NUM_TRIALS;
+            zd_o = (double) z_o / SCALE_FACTOR;
+            yd_o = (double) y_o / SCALE_FACTOR;
+            xd_o = (double) x_o / SCALE_FACTOR;
+            printf("Average ticks:     %d\n", time_elapsed);
+            printf("z = vector(y/z):   %f\n", zd_o);
+            printf("x = vector(y/z):   %f\n", xd_o * ((double) K_SCALE / (double) SCALE_FACTOR));
+            printf("binary(z):         "); binary_print(z_o);
+            printf("binary(x):         "); binary_print(x_o); printf("\n");
+             /* END VECTORING */
+
+            /* START ROTATION */
+            printf("Opt-3 CORDIC-Rotation\n");
+            time_start = clock();
+            for (int k = 0; k < NUM_TRIALS; k++)
+            {
+                for (int j = 0; j < NUM_ITERATIONS; j++)
+                {
+                    cordic_opt3_rotation(z_i, &x_o, &y_o);
+                }
+            }
+            time_end = clock();
+            time_elapsed = (time_end - time_start) / NUM_TRIALS;
+            yd_o = (double) y_o / SCALE_FACTOR;
+            xd_o = (double) x_o / SCALE_FACTOR;
+            printf("Average ticks:     %d\n", time_elapsed);
+            printf("x = rotate(z):     %f\n", xd_o);
+            printf("y = rotate(z):     %f\n", yd_o);
+            printf("binary(x):         "); binary_print(x_o);
+            printf("binary(y):         "); binary_print(y_o); printf("\n");
+            /* END ROTATION */
+            #endif
         }
 
-        if (strcmp(argv[i], "-f") == 0) {
-            printf("Running Firmware\n");
+        if (strcmp(argv[i], "-o3b") == 0)
+        {
+            #ifdef O3b
+            /* START VECTORING */
+            printf("Opt-3b CORDIC-Vectoring\n");
+            time_start = clock();
+            for (int k = 0; k < NUM_TRIALS; k++)
+            {
+                for (int j = 0; j < NUM_ITERATIONS; j++)
+                {
+                    cordic_opt3b_vectoring(x_i, y_i, &x_o, &z_o);
+                }
+            }
+            time_end = clock();
+            time_elapsed =  (time_end - time_start) / NUM_TRIALS;
+            zd_o = (double) z_o / SCALE_FACTOR;
+            yd_o = (double) y_o / SCALE_FACTOR;
+            xd_o = (double) x_o / SCALE_FACTOR;
+            printf("Average ticks:     %d\n", time_elapsed);
+            printf("z = vector(y/z):   %f\n", zd_o);
+            printf("x = vector(y/z):   %f\n", xd_o * ((double) K_SCALE / (double) SCALE_FACTOR));
+            printf("binary(z):         "); binary_print(z_o);
+            printf("binary(x):         "); binary_print(x_o); printf("\n");
+             /* END VECTORING */
+
+             /* START ROTATION */
+            printf("Opt-3b CORDIC-Rotation\n");
+            time_start = clock();
+            for (int k = 0; k < NUM_TRIALS; k++)
+            {
+                for (int j = 0; j < NUM_ITERATIONS; j++)
+                {
+                    cordic_opt3b_rotation(z_i, &x_o, &y_o);
+                }
+            }
+            time_end = clock();
+            time_elapsed = (time_end - time_start) / NUM_TRIALS;
+            yd_o = (double) y_o / SCALE_FACTOR;
+            xd_o = (double) x_o / SCALE_FACTOR;
+            printf("Average ticks:     %d\n", time_elapsed);
+            printf("x = rotate(z):     %f\n", xd_o);
+            printf("y = rotate(z):     %f\n", yd_o);
+            printf("binary(x):         "); binary_print(x_o);
+            printf("binary(y):         "); binary_print(y_o); printf("\n");
+            /* END ROTATION */
+            #endif
         }
     }
 

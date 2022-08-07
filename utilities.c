@@ -1,9 +1,11 @@
 #include <stdint.h>
+#include <stdio.h>
+#include "constants.h"
 
 /* Truncate a int32_t to 16 bits using Von Neumann rounding 
 *  This function works in the case that the input x is not negative.
 */
-int16_t von_neumann_round(int32_t x) {
+public int16_t von_neumann_round(int32_t x) {
     int8_t significant = 0;
     int8_t set_lsb = 0;
     int8_t shift;
@@ -26,4 +28,15 @@ int16_t von_neumann_round(int32_t x) {
     }
 
     return (int16_t) x;
+}
+
+/* For debugging purposes, print the
+* binary representation of a number */
+public void binary_print(int32_t x)
+{
+    for (int i = 31; i >= 0; i--)
+    {
+        printf("%d", (x >> i) & 1);
+    }
+    printf("\n");
 }

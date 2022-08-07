@@ -4,9 +4,9 @@
 # implementation into ARM binaries, using all possible compiler
 # optimization flags.
 
-DEFINES=("-D REFERENCE" "-D O1" "-D NAIVE" "-D O2")
-MODULES=("cordic_naive.c" "cordic_opt1.c" "cordic_opt2.c")
-OBJECTS=("cordic_naive.o" "cordic_opt1.o" "cordic_opt2.o")
+DEFINES=("-D REFERENCE" "-D O1" "-D NAIVE" "-D O2" "-D O3" "-D O3b")
+MODULES=("naive_cordic.c" "opt1_cordic.c" "opt2_cordic.c" "opt3_cordic.c" "opt3b_cordic.c")
+OBJECTS=("naive_cordic.o" "opt1_cordic.o" "opt2_cordic.o" "opt3_cordic.o" "opt3b_cordic.o")
 OPT_FLAG=("-O0" "-O1" "-O2" "-O3")
 CC=""
 FLAGS=""
@@ -41,11 +41,17 @@ for opt in ${OPT_FLAG[@]}; do
         mv ${modified}.s ./temp_asm/${modified}${opt}.asm
     done
 
+    # Compile math reference
+    ${CC} ${DEFINES[@]} -c -std=c99 math_reference.c
+
+    # Compile utilities
+    ${CC} ${DEFINES[@]} -c -std=c99 utilities.c
+
     # Compile performance test
     ${CC} ${DEFINES[@]} -c -std=c99 performance_test.c
 
     # Link all objects
-    ${CC} -o ${EXEC} ${OBJECTS[@]} -std=c99 performance_test.o ${FLAGS[@]}
+    ${CC} -o ${EXEC} ${OBJECTS[@]} -std=c99 performance_test.o math_reference.o utilities.o ${FLAGS[@]}
 done
 
 # arm-linux-gcc -c -std=c99 cordic_naive.c -O1

@@ -17,7 +17,10 @@
 * The arguments x and y represent the input vector. The output is stored in x_o, y_o and z_o
 * (_o for output).
 */
-void cordic_opt1_vectoring(int32_t x, int32_t y, int32_t* restrict x_o, int32_t* restrict z_o) {
+public void cordic_opt1_vectoring(int32_t x, int32_t y,
+                                  int32_t* restrict x_o,
+                                  int32_t* restrict z_o)
+{
     register int32_t x_temp_1, y_temp_1, z_temp;
     register int32_t x_temp_2;
     register int32_t i;
@@ -27,13 +30,17 @@ void cordic_opt1_vectoring(int32_t x, int32_t y, int32_t* restrict x_o, int32_t*
     y_temp_1 = y;
     z_temp = 0;
 
-    for (i = 0; i < 19; i++) {
-        if (y_temp_1 >= 0) {
+    for (i = 0; i < 19; i++)
+    {
+        if (y_temp_1 >= 0)
+        {
             /* Rotate downwards by arctan(2^-i) */
             x_temp_2 = x_temp_1 + (y_temp_1 >> i);
             y_temp_1 -= (x_temp_1 >> i);
             z_temp += *table_access;
-        } else {
+        }
+        else
+        {
             /* Rotate upwards by arctan(2^-i) */
             x_temp_2 = x_temp_1 - (y_temp_1 >> i);
             y_temp_1 += (x_temp_1 >> i);
@@ -56,7 +63,9 @@ void cordic_opt1_vectoring(int32_t x, int32_t y, int32_t* restrict x_o, int32_t*
 * The input argument z represent the input angle. The output is stored in x_o, y_o and z_o
 * (_o for output). x_o and y_o represent cos(z), sin(z) respectively.
 */
-void cordic_opt1_rotation(int32_t z, int32_t* restrict x_o, int32_t* restrict y_o) {
+public void cordic_opt1_rotation(int32_t z, int32_t* restrict x_o,
+                                 int32_t* restrict y_o)
+{
     register int32_t x_temp_1, y_temp_1, z_temp;
     register int32_t x_temp_2;
     register int32_t i;
@@ -66,12 +75,16 @@ void cordic_opt1_rotation(int32_t z, int32_t* restrict x_o, int32_t* restrict y_
     y_temp_1 = 0;
     z_temp = z;
 
-   for (i = 0; i < 19; i++) {
-        if (z_temp < 0) {
+   for (i = 0; i < 19; i++)
+   {
+        if (z_temp < 0)
+        {
             x_temp_2 = x_temp_1 + (y_temp_1 >> i);
             y_temp_1 -= (x_temp_1 >> i);
             z_temp += *table_access;
-        } else {
+        }
+        else
+        {
             x_temp_2 = x_temp_1 - (y_temp_1 >> i);
             y_temp_1 += (x_temp_1 >> i);
             z_temp -= *table_access;
