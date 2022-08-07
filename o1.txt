@@ -1,0 +1,105 @@
+
+Program Inputs
+Real Z:            0.785398
+Real Y:            0.707106
+Real X:            0.707106
+Integer Z:         411774
+Integer Y:         370727
+Integer X:         370727
+Binary Z:          00000000000001100100100001111110
+Binary Y:          00000000000001011010100000100111
+Binary X:          00000000000001011010100000100111
+
+Atan Reference
+Average ticks:     740
+z = arctan(y/z):   0.785398
+binary(z):         00000000000001100100100001111110
+
+Sin/Cos Reference
+Average ticks:     950
+y = sin(z):        0.707107
+x = cos(z):        0.707107
+binary(x):         00000000000001011010100000100111
+binary(y):         00000000000001011010100000100111
+
+Naive CORDIC-Vectoring
+Average ticks:     80
+z = vector(y/z):   0.785389
+x = vector(y/z):   1.000001
+y = vector(y/z):   0.000004
+binary(z):         00000000000001100100100001111010
+binary(x):         00000000000011010010110010010011
+binary(y):         00000000000000000000000000000010
+
+Naive CORDIC-Rotation
+Average ticks:     110
+z = rotate(z):     0.000000
+x = rotate(z):     0.707104
+y = rotate(z):     0.707109
+binary(z):         00000000000000000000000000000000
+binary(x):         00000000000001011010100000100110
+binary(y):         00000000000001011010100000101001
+
+Opt-1 CORDIC-Vectoring
+Average ticks:     90
+z = vector(y/z):   0.785389
+x = vector(y/z):   1.000001
+binary(z):         00000000000001100100100001111010
+binary(x):         00000000000011010010110010010011
+
+Opt-1 CORDIC-Rotation
+Average ticks:     100
+x = rotate(z):     0.707104
+y = rotate(z):     0.707109
+binary(x):         00000000000001011010100000100110
+binary(y):         00000000000001011010100000101001
+
+Opt-2 CORDIC-Vectoring
+Average ticks:     100
+z = vector(y/z):   0.785389
+x = vector(y/z):   1.000001
+binary(z):         00000000000001100100100001111010
+binary(x):         00000000000011010010110010010011
+
+Opt-2 CORDIC-Rotation
+Average ticks:     60
+x = rotate(z):     0.707104
+y = rotate(z):     0.707109
+binary(x):         00000000000001011010100000100110
+binary(y):         00000000000001011010100000101001
+
+Opt-3 CORDIC-Vectoring
+Average ticks:     100
+z = vector(y/z):   0.785389
+x = vector(y/z):   1.000001
+binary(z):         00000000000001100100100001111010
+binary(x):         00000000000011010010110010010011
+
+Opt-3 CORDIC-Rotation
+Average ticks:     60
+x = rotate(z):     0.707104
+y = rotate(z):     0.707109
+binary(x):         00000000000001011010100000100110
+binary(y):         00000000000001011010100000101001
+
+Opt-3b CORDIC-Vectoring
+Average ticks:     80
+z = vector(y/z):   0.785389
+x = vector(y/z):   1.000001
+binary(z):         00000000000001100100100001111010
+binary(x):         00000000000011010010110010010011
+
+Opt-3b CORDIC-Rotation
+Average ticks:     70
+x = rotate(z):     0.707104
+y = rotate(z):     0.707109
+binary(x):         00000000000001011010100000100110
+binary(y):         00000000000001011010100000101001
+
+NEON CORDIC-Vectoring
+Average ticks:     270
+z = vector(y/z):   0.785389
+x = vector(y/z):   1.000001
+binary(z):         00000000000001100100100001111010
+binary(x):         00000000000011010010110010010011
+
