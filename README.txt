@@ -44,13 +44,15 @@ A shell script `compile.sh` which automates the compilation process has
 been provided. There are two modes of operation.
 
 The build process was tested on the SENG440 lab machine (seng440.ece.uvic.ca),
-and makes use of  the following executables provided by that environment:
+and makes use of the following executables provided by that environment:
 
+    - /bin/bash
     - /usr/bin/gcc
     - /opt/bin/arm-linux-gcc
 
 Versions:
 
+    - GNU bash, version 4.2.46(2)-release (x86_64-redhat-linux-gnu)
     - gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-44)
     - arm-none-linux-gnueabi-gcc (Sourcery G++ Lite 2008q3-72) 4.3.2
 
