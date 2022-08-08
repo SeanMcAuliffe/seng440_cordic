@@ -19,32 +19,23 @@ cordic_opt3b_vectoring:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	@ link register save eliminated.
+
+    @SLOT 1                                     @SLOT 2                                 @SLOT 3
 	stmfd	sp!, {r4, r5, r6, r7, r8}
-	mov	r5, #0          ; z = 0
-	ldr	r6, .L8         ; r6 = z_table
-	mov	r7, r2          ; address of y_o
-	mov	r8, r3          ; address of z_o
-	mov	ip, r5          ; ip = i = 0
-	mov	r2, r5          ; r2 = z_table pointer
+	mov	r5, #0                                  ldr	r6, .L83                            mov	r7, r2
+	mov	r8, r3                                  mov	ip, r5                              mov	r2, r5
 .L4:
-	cmp	r1, #0                      ; compare r1 (y_temp_1), 0
-	ldr 	r3, [r6, r2]			; PEEPHOLE OPTIMIZATION
-	addge	r4, r0, r1, asr ip      ; if y >= 0, x += (y >> i)
-	sublt	r4, r0, r1, asr ip      ; if y < 0, x -= (y >> i)
-	subge	r1, r1, r0, asr ip      ; if y >= 0, y -= (x >> i)
-	addlt	r1, r1, r0, asr ip      ; if y < 0, y += (x >> i)
-	addge	r5, r5, r3              ; if y >= 0, z += z_table[i]
-	rsblt	r5, r3, r5              ; if y < 0, z -= z_table[i]
-	add	ip, ip, #1                  ; i++
-	cmp	ip, #19                     ; compare i, 19
-	add	r2, r2, #4                  ; increment z_table
-	mov	r0, r4                      ; x_temp_1 = x_temp_2
-	; INSTRUCTION COUNT: 12 (x 19 iterations = 228 instructions)
+	cmp	r1, #0                                  ldr 	r3, [r6, r2]                    nop
+	addge	r4, r0, r1, asr ip                  subge	r1, r1, r0, asr ip              addge	r5, r5, r3
+	sublt	r4, r0, r1, asr ip                  addlt	r1, r1, r0, asr ip              rsblt	r5, r3, r5
+	add	ip, ip, #1                              add	r2, r2, #4                          mov	r0, r4
+	cmp	ip, #19                                 nop                                     nop
+    ; INSTRUCTION COUNT: 5 (x 19 iterations = 95 instructions)
 	bne	.L4
-	str	r4, [r7, #0]                ; *x_o = x_temp_1
-	str	r5, [r8, #0]                ; *z_o = z_temp
-	ldmfd	sp!, {r4, r5, r6, r7, r8}
-	bx	lr
+	str	r4, [r7, #0]                            nop                                     nop
+	str	r5, [r8, #0]                            nop                                     nop
+	ldmfd	sp!, {r4, r5, r6, r7, r8}           nop                                     nop
+	bx	lr                                      nop                                     nop
 .L9:
 	.align	2
 .L8:
