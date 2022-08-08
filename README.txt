@@ -79,6 +79,21 @@ In each case, no optimiation flag was used during the compilation of the
 testbench itself, or any reference functions. The flag was applied only
 to the compilation of CORDIC.
 
+The testbench functionality is contained in `performance_test.c`, it depends
+on the following user-defined modules:
+
+    - naive_cordic.h
+    - opt1_cordic.h
+    - opt3_codic.h
+    - opt3b_cordic.h
+    - neon_cordic.h
+    - neon_unrolled_cordic.h
+    - math_reference.h
+    - utilities.h
+    - constants.h
+
+All of these modules together, can be considered to be the testbench.
+
 
 ---------------------------- RUNNING THE TESTBENCH ----------------------------
 
