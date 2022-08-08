@@ -17,7 +17,6 @@ static const int32_t SCALE_FACTOR = (1 << 19);
 * lim(n->inf) K(n) = 0.6072529350088812561694
 */
 static const int32_t K_SCALE = 318375;
-static int32_t K_FACTOR = 318375;
 
 static const int32_t z_table[19] = {411774, 243084, 128439, 65197, 32725, 16378,
                              8191, 4095, 2047, 1023, 511, 255, 127, 63, 31,

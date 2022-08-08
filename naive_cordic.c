@@ -7,6 +7,8 @@
 #include <stdint.h>
 #include "constants.h"
 
+static const int32_t K_FACTOR = 318375;
+
 /*
 * This function implements the CORDIC algorithm in vectoring mode using fixed point arithmetic.
 * It calculates the output to 16 bits of precision, where 15 bits represent the magnitude, and
