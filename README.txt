@@ -43,7 +43,7 @@ The resulting floating-point representation is accurate to 4 decimal places.
 A shell script `compile.sh` which automates the compilation process has
 been provided. There are two modes of operation.
 
-The build process was tested on the SENG440 lab machine (seng44.ece.uvic.ca),
+The build process was tested on the SENG440 lab machine (seng440.ece.uvic.ca),
 and makes use of  the following executables provided by that environment:
 
     - /usr/bin/gcc
