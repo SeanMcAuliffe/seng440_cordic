@@ -17,7 +17,7 @@ if [ "$1" == "g" ]; then
 fi
 
 if [ "$1" == "a" ]; then
-    CC="/opt/arm/4.3.2/bin/arm-linux-gcc"
+    CC="arm-linux-gcc"
     DEFINES+=("-D NEON")
     MODULES+=("neon_cordic.c" "neon_unrolled_cordic.c")
     OBJECTS+=("neon_cordic.o" "neon_unrolled_cordic.o")
@@ -28,7 +28,7 @@ if [ "$CC" == "gcc" ]; then
     FLAGS="-Wall -lm"
 fi
 
-if [ "$CC" == "/opt/arm/4.3.2/bin/arm-linux-gcc" ]; then
+if [ "$CC" == "arm-linux-gcc" ]; then
     FLAGS="-Wall -mfloat-abi=softfp -mfpu=neon -static -march=armv4t -mtune=arm920t"
 fi
 
